@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Navbar from './Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { setDoc, doc, getDocs, collection } from 'firebase/firestore';
 
 import { firebaseConfig } from '../../config';
@@ -22,7 +22,11 @@ const Home = () => {
   // const email = 'username@gmail.com';
   // const password = 'password123';
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+    useFetchStreams: false,
+  });
+  // const db = getFirestore(app);
 
   const addUser = () => {
     console.log(username);
