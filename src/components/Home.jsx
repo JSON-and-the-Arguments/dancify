@@ -8,7 +8,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore';
-
 import { firebaseConfig } from '../../config';
 
 const Home = () => {
@@ -32,23 +31,6 @@ const Home = () => {
       password: password,
     });
     //navigation.navigate('CreateProfile')
-  };
-
-  const location = 'manchester';
-  const danceStyle = 'salsa';
-  const role = 'leader';
-  const bio = 'hi';
-  
-
-  const patchUser = () => {
-    const updateProfile = doc(db, "users", `${username}`);
-    updateDoc(updateProfile, {
-      location: location,
-      danceStyle: danceStyle,
-      role: role,
-      bio: bio,
-    });
-    
   };
 
   useLayoutEffect(() => {

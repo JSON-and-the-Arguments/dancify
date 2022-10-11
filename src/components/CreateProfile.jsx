@@ -3,15 +3,40 @@ import React, { useState } from 'react'
 import Navbar from './Navbar'
 import Dropdown from './Dropdown'
 import Slider from '@react-native-community/slider';
+import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
+import { firebaseConfig } from '../../config';
 
+ // Initialize Firebase
+ const app = initializeApp(firebaseConfig);
+ const db = initializeFirestore(app, {
+   experimentalForceLongPolling: true,
+   useFetchStreams: false,
+ });
 
+const initialValues = {
+  firstname: "",
+  lastname: "",
+  image: "",
+  postcode: "",
+  dancestyles: "",
+  role: "",
+  range: 0,
+  available: false,
+  about: ""
+}
 
+// const location = 'manchester';
+// const danceStyle = 'salsa';
+// const role = 'leader';
+// const bio = 'hi';
 
 const dance = [
-    {id: 1, name: 'salsa'},
-    {id: 2, name: 'bachata'},
-    {id: 3, name: 'kizomba'},
-    {id: 4, name: 'rumba'}
+  {id: 1, name: 'salsa'},
+  {id: 2, name: 'bachata'},
+  {id: 3, name: 'kizomba'},
+  {id: 4, name: 'rumba'}
 ]
 
 const role = [
@@ -22,21 +47,36 @@ const role = [
 
 
 const CreateProfile = () => {
-    const [selectedItem, setSelectedItem] = useState(null)
-    const [selectedRole, setSelectedRole] = useState(null)
-    const [range, setRange] = useState(0)
-    const [isAvailable, setIsAvailable] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [selectedRole, setSelectedRole] = useState(null)
+  const [range, setRange] = useState(0)
+  const [isAvailable, setIsAvailable] = useState(false);
+  const [values, setValues] = useState(initialValues)
+  
+  const handleInputChange = (val, val2) => {
+      setValues({...values,
+        [val]: val2})
+  }
+  
+  
+  const patchUser = () => {
+    const updateProfile = doc(db, "users", "pawel");
+    updateDoc(updateProfile, values);
     
-    const toggleSwitch = () => setIsAvailable(previousState => !previousState);
+  };
+  
+  const toggleSwitch = () => setIsAvailable(previousState => !previousState);
+  
+  const onSelect = (item) => {
+    setSelectedItem(item)
+    handleInputChange("dancestyles", item.name)
+  }
+  const onRoleSelect = (item) => {
+    setSelectedRole(item)
+    handleInputChange("role", item.name)
+  }
 
-    const onSelect = (item) => {
-      setSelectedItem(item)
-    }
-    const onRoleSelect = (item) => {
-      setSelectedRole(item)
-    }
-
-
+    console.log(values);
     
   return (
     <SafeAreaView className='flex-1'>
@@ -45,8 +85,8 @@ const CreateProfile = () => {
         
         <Text>First Name</Text>
         <TextInput
-        //   value={username}
-        //   onChangeText={setUsername}
+          value={values.firstname}
+          onChangeText={(value) => handleInputChange("firstname", value)}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="firstname"
           required
@@ -54,8 +94,8 @@ const CreateProfile = () => {
         />
         <Text>Last Name</Text>
         <TextInput
-        //   value={email}
-        //   onChangeText={setEmail}
+           value={values.lastname}
+           onChangeText={(value) => handleInputChange("lastname", value)}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="lastname"
           required
@@ -63,8 +103,8 @@ const CreateProfile = () => {
         />
         <Text>Image</Text>
         <TextInput
-        //   value={password}
-        //   onChangeText={setPassword}
+          value={values.image}
+          onChangeText={(value) => handleInputChange("image", value)}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="image"
           required
@@ -72,8 +112,8 @@ const CreateProfile = () => {
         />
         <Text>Post Code</Text>
         <TextInput
-        //   value={password}
-        //   onChangeText={setPassword}
+          value={values.postcode}
+          onChangeText={(value) => handleInputChange("postcode", value)}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="postcode"
           required
@@ -96,8 +136,10 @@ const CreateProfile = () => {
 
         step={5}
         value={range}
-        onSlidingComplete={setRange}
-        //onValueChange={setRange}
+        onSlidingComplete={(value) => { 
+          setRange(value)
+        handleInputChange("range", value)}
+        }
         style={{width: 320, height: 40}}
         minimumValue={0}
         maximumValue={30}
@@ -109,13 +151,16 @@ const CreateProfile = () => {
         trackColor={{ false: '#767577', true: '#81b0ff' }}
         thumbColor={isAvailable ? '#f5dd4b' : '#f4f3f4'}
         ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
         value={isAvailable}
+        onValueChange={(value) => {
+        toggleSwitch()
+        handleInputChange("available", value)}
+        } 
         />
         <Text>Tell us about Yourself</Text>
         <TextInput
-        //   value={password}
-        //   onChangeText={setPassword}
+          value={values.about}
+          onChangeText={(value) => handleInputChange("about", value)}
           className="mt-1  block w-80 px-3 py-2 h-20 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="about"
           
@@ -124,7 +169,7 @@ const CreateProfile = () => {
         <View className='mt-5 mb-10'>
             <Button
                 title="Sign Up"
-                
+                onPress={patchUser}
                 className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
             />
         </View>
