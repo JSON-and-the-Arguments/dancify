@@ -15,6 +15,9 @@ const Home = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  const navigation = useNavigation();
+
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = initializeFirestore(app, {
@@ -28,9 +31,10 @@ const Home = () => {
       email: email,
       password: password,
     });
+    //navigation.navigate('CreateProfile')
   };
 
-  const navigation = useNavigation();
+ 
 
   useLayoutEffect(() => {
     navigation.setOptions({
