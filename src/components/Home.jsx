@@ -16,17 +16,11 @@ const Home = () => {
   const [password, setPassword] = useState('');
 
   // Initialize Firebase
-
-  // // variables for connection to form
-  // const username = 'username1';
-  // const email = 'username@gmail.com';
-  // const password = 'password123';
   const app = initializeApp(firebaseConfig);
   const db = initializeFirestore(app, {
     experimentalForceLongPolling: true,
     useFetchStreams: false,
   });
-  // const db = getFirestore(app);
 
   const addUser = () => {
     console.log(username);
