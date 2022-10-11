@@ -7,15 +7,15 @@ import Navbar from './Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { setDoc, doc, getDocs, collection } from 'firebase/firestore';
+import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore';
 
 import { firebaseConfig } from '../../config';
+
 const Home = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // Initialize Firebase
+   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = initializeFirestore(app, {
     experimentalForceLongPolling: true,
@@ -28,6 +28,23 @@ const Home = () => {
       email: email,
       password: password,
     });
+  };
+
+  const location = 'manchester';
+  const danceStyle = 'salsa';
+  const role = 'leader';
+  const bio = 'hi';
+  
+
+  const patchUser = () => {
+    const updateProfile = doc(db, "users", `${username}`);
+    updateDoc(updateProfile, {
+      location: location,
+      danceStyle: danceStyle,
+      role: role,
+      bio: bio,
+    });
+    
   };
 
   const navigation = useNavigation();
@@ -78,6 +95,7 @@ const Home = () => {
           />
         </View>
       </View>
+      
     </SafeAreaView>
   );
 };
