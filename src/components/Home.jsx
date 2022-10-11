@@ -23,9 +23,6 @@ const Home = () => {
   });
 
   const addUser = () => {
-    console.log(username);
-    console.log(email);
-    console.log(password);
     setDoc(doc(db, 'users', `${username}`), {
       username: username,
       email: email,
@@ -85,28 +82,5 @@ const Home = () => {
   );
 };
 
-{
-  /* <TextInput
-style={styles.input}
-onChangeText={onChangeText}
-value={text}
-/>
-<TextInput
-style={styles.input}
-onChangeText={onChangeNumber}
-value={number}
-placeholder="useless placeholder"
-keyboardType="numeric"
-/> */
-}
-
-// const styles = StyleSheet.create({
-// input: {
-// height: 40,
-// margin: 12,
-// borderWidth: 1,
-// padding: 10,
-// },
-// });
 
 export default Home;
