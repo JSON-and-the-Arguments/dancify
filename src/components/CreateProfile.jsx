@@ -129,7 +129,7 @@ const CreateProfile = () => {
     const updateProfile = doc(db, "users", `${values.firstname}`);
     handleUploadPicture()
     setDoc(updateProfile, values);
-    navigation.navigate('UsersList')
+    navigation.navigate('Home')
     
   };
   

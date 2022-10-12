@@ -13,7 +13,7 @@ const app = initializeApp(firebaseConfig);
 const UsersList = () => {
   const [users, setUsers] = useState([])
   const [picture, setPicture] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {

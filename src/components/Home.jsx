@@ -86,7 +86,7 @@ const Home = () => {
     <SafeAreaView className="flex-1">
       <Navbar />
       <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
-        <Text>Users List</Text>
+        <Text className='text-2xl'>Users List</Text>
       </TouchableOpacity>
       <View className="flex-1  justify-center items-center mt-5  space-y-5">
         <Text>Username</Text>
