@@ -7,13 +7,15 @@ import Navbar from './Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { setDoc, doc, getDocs, collection } from 'firebase/firestore';
-
+import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore';
 import { firebaseConfig } from '../../config';
+
 const Home = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -28,9 +30,8 @@ const Home = () => {
       email: email,
       password: password,
     });
+    //navigation.navigate('CreateProfile')
   };
-
-  const navigation = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -78,6 +79,7 @@ const Home = () => {
           />
         </View>
       </View>
+      
     </SafeAreaView>
   );
 };
