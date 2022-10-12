@@ -11,6 +11,7 @@ const UserCard = () => {
         <Text>Dance style</Text>
       </View>
     </View>
+    
   );
 };
 
