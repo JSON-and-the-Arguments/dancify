@@ -1,11 +1,22 @@
-import { ScrollView } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import UserCard from "./UserCard";
+import Search from "./Search";
 
 const SearchPage = () => {
   return (
-    <ScrollView horizontal={true}>
-      <UserCard />
-    </ScrollView>
+    <View>
+      <ScrollView  horizontal={true}>
+        <UserCard />
+        <UserCard />
+        <UserCard />
+        <UserCard />
+        <UserCard />
+      </ScrollView>
+      <Search />
+      
+
+      
+    </View>
   );
 };
 
