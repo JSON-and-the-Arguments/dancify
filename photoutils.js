@@ -74,6 +74,28 @@ export  async function getImages(path)  {
     });
     //console.log(url)
 }
+
+export async function displayPhoto() {
+  // Create a reference from an HTTPS URL
+  // Note that in the URL, characters are URL escaped!
+  const storage = getStorage()
+  const httpsReference = ref(storage, 'gs://dancify-728c9.appspot.com/userPictures/Chad/profilePicture.jpeg');  
+  getDownloadURL(httpsReference)
+  // .then((url) => {
+  //   // `url` is the download URL for 'images/stars.jpg'
+      
+  //     console.log(url, 'Photo utils HEEEEEEEEEEEEEEEEREEEEEEEEEEE') 
+  //  // This can be downloaded directly:
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.responseType = 'blob';
+  //   xhr.onload = (event) => {
+  //     const blob = xhr.response;
+  //   };
+  //   xhr.open('GET', url);
+  //   console.log(url, 'BOTTTTOM UTILS')
+  //   xhr.send();
+  // })
+}
   
 
   

@@ -9,6 +9,7 @@ import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { firebaseConfig } from '../../config';
 import { pickImage,  askForPermission, uploadImage } from '../../photoutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native';
 
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
@@ -57,6 +58,9 @@ const CreateProfile = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [photoLink, setPhotoLink] = useState('')
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -93,14 +97,15 @@ const CreateProfile = () => {
       );
       photoURL = url;
       
+      
     }
     // const userData = {
     //   displayName,
     //   email: user.email,
     // };
-    // if (photoURL) {
-    //   userData.photoURL = photoURL;
-    // }
+    if (photoURL) {
+      initialValues.image = photoURL
+    }
 
     // await Promise.all([
     //   updateProfile(user, userData),
@@ -120,9 +125,11 @@ const CreateProfile = () => {
   
   
   const patchUser = () => {
-    const updateProfile = doc(db, "users", "pawel");
+    
+    const updateProfile = doc(db, "users", `${values.firstname}`);
     handleUploadPicture()
-    updateDoc(updateProfile, values);
+    setDoc(updateProfile, values);
+    navigation.navigate('UsersList')
     
   };
   
@@ -137,7 +144,7 @@ const CreateProfile = () => {
     handleInputChange("role", item.name)
   }
 
-    
+  
     
   return (
     <SafeAreaView className='flex-1'>
@@ -147,6 +154,7 @@ const CreateProfile = () => {
         
     <TouchableOpacity
           onPress={handleProfilePicture}
+          
           style={{
             marginTop: 30,
             borderRadius: 120,
@@ -196,10 +204,10 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
-        {/* <Text>Image</Text>
-        <TextInput
-          value={`gs://dancify-728c9.appspot.com/userPictures/${values.firstname}`}
-          onChangeText={(value) => handleInputChange("image", value)}
+        {/* <Text>Image</Text> */}
+        {/* <TextInput
+          value={photoLink}
+          onChangeText={(value) => handleInputChange("image", photoLink)}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="image"
           required
