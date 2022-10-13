@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TextInput, Button, SafeAreaView, Switch} from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, Image, TextInput, Button, SafeAreaView, Switch, TouchableOpacity} from 'react-native'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Navbar from './Navbar'
 import Dropdown from './Dropdown'
 import Slider from '@react-native-community/slider';
@@ -7,6 +7,9 @@ import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { firebaseConfig } from '../../config';
+import { pickImage,  askForPermission, uploadImage } from '../../photoutils';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native';
 
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
@@ -27,10 +30,6 @@ const initialValues = {
   about: ""
 }
 
-// const location = 'manchester';
-// const danceStyle = 'salsa';
-// const role = 'leader';
-// const bio = 'hi';
 
 const dance = [
   {id: 1, name: 'salsa'},
@@ -52,6 +51,63 @@ const CreateProfile = () => {
   const [range, setRange] = useState(0)
   const [isAvailable, setIsAvailable] = useState(false);
   const [values, setValues] = useState(initialValues)
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [permissionStatus, setPermissionStatus] = useState(null);
+  //const [photoLink, setPhotoLink] = useState('')
+
+  const navigation = useNavigation();
+
+  
+
+  useEffect(() => {
+    (async () => {
+      const status = await askForPermission();
+      setPermissionStatus(status);
+    })();
+  }, []);
+
+  async function handleProfilePicture() {
+    const result = await pickImage();
+    if (!result.cancelled) {
+      setSelectedImage(result.uri);
+      handleInputChange("image", result.uri)
+    }
+    
+  }
+
+  if (!permissionStatus) {
+    return <Text>Loading</Text>;
+  }
+  if (permissionStatus !== "granted") {
+    return <Text>You need to allow this permission</Text>;
+  }
+
+  async function handleUploadPicture() {
+    const user = values.firstname;
+    let photoURL;
+    if (selectedImage) {
+      const { url } = await uploadImage(
+        selectedImage,
+        
+        `userPictures/${user}`,
+        "profilePicture"
+      );
+      photoURL = url;
+      
+      
+    }
+    
+    if (photoURL) {
+      initialValues.image = photoURL
+    }
+
+    
+  }
+
+
+  
+
   
   const handleInputChange = (val, val2) => {
       setValues({...values,
@@ -60,8 +116,11 @@ const CreateProfile = () => {
   
   
   const patchUser = () => {
-    const updateProfile = doc(db, "users", "pawel");
-    updateDoc(updateProfile, values);
+    
+    const updateProfile = doc(db, "users", `${values.firstname}`);
+    handleUploadPicture()
+    setDoc(updateProfile, values);
+    navigation.navigate('Home')
     
   };
   
@@ -76,12 +135,43 @@ const CreateProfile = () => {
     handleInputChange("role", item.name)
   }
 
-    console.log(values);
+  
     
   return (
     <SafeAreaView className='flex-1'>
         <Navbar/>
     <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
+        
+        
+    <TouchableOpacity
+          onPress={handleProfilePicture}
+          
+          style={{
+            marginTop: 30,
+            borderRadius: 120,
+            width: 120,
+            height: 120,
+            backgroundColor: 'grey',
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {!selectedImage ? (
+            <MaterialCommunityIcons name="camera-plus-outline" size={45} color="black" />
+          ) : (
+            <Image
+              source={{ uri: selectedImage }}
+              style={{ width: "100%", height: "100%", borderRadius: 120 }}
+            />
+          )}
+        </TouchableOpacity>
+        
+
+        
+
+
+
+
         
         <Text>First Name</Text>
         <TextInput
@@ -101,15 +191,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
-        <Text>Image</Text>
-        <TextInput
-          value={values.image}
-          onChangeText={(value) => handleInputChange("image", value)}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="image"
-          required
-          keyboardType="default"
-        />
+        
         <Text>Post Code</Text>
         <TextInput
           value={values.postcode}
@@ -168,7 +250,7 @@ const CreateProfile = () => {
         />
         <View className='mt-5 mb-10'>
             <Button
-                title="Sign Up"
+                title="Create"
                 onPress={patchUser}
                 className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
             />

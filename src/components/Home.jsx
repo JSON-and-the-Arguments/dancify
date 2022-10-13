@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -6,9 +6,52 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Navbar from './Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { setDoc, doc, updateDoc, getDocs, collection } from 'firebase/firestore';
+import { Firestore, getFirestore, initializeFirestore, firestore, getDocs } from 'firebase/firestore';
+import { setDoc, doc, updateDoc, getDoc, collection, query } from 'firebase/firestore';
 import { firebaseConfig } from '../../config';
+import {getUsers} from '../../queryutils'
+
+// import {decode, encode} from 'base-64'
+
+// if (!global.btoa) {  global.btoa = encode }
+
+// if (!global.atob) { global.atob = decode }
+
+
+// const app = initializeApp(firebaseConfig);
+// const db = initializeFirestore(app, {
+//   experimentalForceLongPolling: true,
+//   useFetchStreams: false,
+// });
+
+
+// const getIT = async () => {
+//   const q = query(collection(db, 'users'))
+//   const querySnapshot = await getDocs(q)
+//   const newArray = []
+//   querySnapshot.forEach((doc) => {
+//     const {email, password, username,} = doc.data()
+//     const {id} = doc.id
+//     console.log(id, email, password, username)
+//     newArray.push(doc.data())
+//   })
+//   // const users = await firestore().collection('users').get()
+//   // const docRef = doc(db, "users", "pawel");
+//   // const docSnap = await getDoc(docRef);
+
+//   //   if (docSnap.exists()) {
+//   //     console.log("Document data:", docSnap.data());
+//   //   } else {
+//   //     // doc.data() will be undefined in this case
+//   //     console.log("No such document!");
+//   //   }
+
+//   console.log(newArray)
+// }
+
+getUsers()
+
+
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -18,11 +61,7 @@ const Home = () => {
   const navigation = useNavigation();
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-    useFetchStreams: false,
-  });
+ 
 
   const addUser = () => {
     setDoc(doc(db, 'users', `${username}`), {
@@ -33,16 +72,25 @@ const Home = () => {
     //navigation.navigate('CreateProfile')
   };
 
+
+  
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
-      headerTitle: 'Hugo',
+      headerTitle: 'Home',
     });
   }, []);
 
   return (
     <SafeAreaView className="flex-1">
       <Navbar />
+      <View className='justify-center items-center mt-10'>
+        <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
+          <Text className='text-5xl'>Users List</Text>
+        </TouchableOpacity>
+      </View>
+      
       <View className="flex-1  justify-center items-center mt-5  space-y-5">
         <Text>Username</Text>
         <TextInput

@@ -15,10 +15,12 @@ const Navbar = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   return (
-    <View className="flex-row justify-between p-5 bg-red-500">
+    <View className='flex-row justify-between p-5 bg-red-500'>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
       <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
-      <TouchableOpacity onPress={() => navigation.navigate("CreateProfile")}>
-        <Text className="text-xl">Dancify</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('CreateProfile')}>
+      <Text className='text-xl'>Dancify</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
