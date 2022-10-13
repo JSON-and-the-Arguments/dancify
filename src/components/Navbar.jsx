@@ -10,7 +10,9 @@ const Navbar = () => {
   const navigation = useNavigation();
   return (
     <View className='flex-row justify-between p-5 bg-red-500'>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
       <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('CreateProfile')}>
       <Text className='text-xl'>Dancify</Text>
       </TouchableOpacity>

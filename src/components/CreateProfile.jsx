@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TextInput, Button, SafeAreaView, Switch, TouchableOpacity} from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Navbar from './Navbar'
 import Dropdown from './Dropdown'
 import Slider from '@react-native-community/slider';
@@ -30,10 +30,6 @@ const initialValues = {
   about: ""
 }
 
-// const location = 'manchester';
-// const danceStyle = 'salsa';
-// const role = 'leader';
-// const bio = 'hi';
 
 const dance = [
   {id: 1, name: 'salsa'},
@@ -58,9 +54,11 @@ const CreateProfile = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
-  const [photoLink, setPhotoLink] = useState('')
+  //const [photoLink, setPhotoLink] = useState('')
 
   const navigation = useNavigation();
+
+  
 
   useEffect(() => {
     (async () => {
@@ -99,19 +97,12 @@ const CreateProfile = () => {
       
       
     }
-    // const userData = {
-    //   displayName,
-    //   email: user.email,
-    // };
+    
     if (photoURL) {
       initialValues.image = photoURL
     }
 
-    // await Promise.all([
-    //   updateProfile(user, userData),
-    //   setDoc(doc(db, "users", user.uid), { ...userData, uid: user.uid }),
-    // ]);
-    // navigation.navigate("home");
+    
   }
 
 
@@ -174,11 +165,7 @@ const CreateProfile = () => {
             />
           )}
         </TouchableOpacity>
-        {/* <Button
-                title="Upload Photo"
-                onPress={handleUploadPicture}
-                /> */}
-
+        
 
         
 
@@ -204,15 +191,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
-        {/* <Text>Image</Text> */}
-        {/* <TextInput
-          value={photoLink}
-          onChangeText={(value) => handleInputChange("image", photoLink)}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="image"
-          required
-          keyboardType="default"
-        /> */}
+        
         <Text>Post Code</Text>
         <TextInput
           value={values.postcode}
@@ -271,7 +250,7 @@ const CreateProfile = () => {
         />
         <View className='mt-5 mb-10'>
             <Button
-                title="Sign Up"
+                title="Create"
                 onPress={patchUser}
                 className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
             />

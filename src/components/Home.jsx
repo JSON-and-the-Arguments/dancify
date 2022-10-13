@@ -78,16 +78,19 @@ const Home = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
-      headerTitle: 'Hugo',
+      headerTitle: 'Home',
     });
   }, []);
 
   return (
     <SafeAreaView className="flex-1">
       <Navbar />
-      <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
-        <Text className='text-2xl'>Users List</Text>
-      </TouchableOpacity>
+      <View className='justify-center items-center mt-10'>
+        <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
+          <Text className='text-5xl'>Users List</Text>
+        </TouchableOpacity>
+      </View>
+      
       <View className="flex-1  justify-center items-center mt-5  space-y-5">
         <Text>Username</Text>
         <TextInput

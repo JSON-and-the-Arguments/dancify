@@ -7,13 +7,14 @@ import {ref, uploadBytes, getDownloadURL, getStorage} from 'firebase/storage'
 //import { storage } from "./firebase"
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../config';
+import Navbar from './Navbar'
 
 const app = initializeApp(firebaseConfig);
 
 const UsersList = () => {
   const [users, setUsers] = useState([])
   const [picture, setPicture] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -24,30 +25,10 @@ const UsersList = () => {
         setLoading(false)
     })  
   }, [])
-  //console.log(users)
-
-  //  const myUsers =users.map((user) => {
-  //   return  user.image
-  // })
-  // console.log(myUsers)
-
-//   users.forEach((user) => {
-//     getImages(user.firstname)
-//     .then((response) => {
-//         setPicture(response)
-//     })
-//   })
-//   useEffect(() => {
-//     getImages(users.firstname)
-//     .then((response) => {
-//         setPicture(response)
-//     })
-//   }, [])
   
-//   console.log(picture)
-//   console.log(picture)
-  // const storage = getStorage()
-  // const httpsReference = ref(storage, 'gs://dancify-728c9.appspot.com/userPictures/Chad/profilePicture.jpeg');
+
+
+  
 
   
   //  useEffect(() => {
@@ -60,15 +41,7 @@ const UsersList = () => {
     
   //  }, [])
   
-  //console.log(picture, '>>>>>>>>>>>Picture here')
-
-  // return (
-  //   <View>
-  //     <Text>Users List</Text>
-  //     <Image   source={{uri:picture}}/>
-  //   </View>
-  // )
-
+  
   if(loading){
     return (
       <View style={[styles.loadingContainer, styles.horizontal]}>
@@ -82,7 +55,8 @@ const UsersList = () => {
 
     return (
     
-      
+      <View className='flex-1'>
+        <Navbar/>
       <ScrollView contentContainerStyle={{justifyContent: 'center'}}  horizontal={true} style={styles.container}>
           
           {users?.map((user, index) => {
@@ -99,7 +73,7 @@ const UsersList = () => {
           })}
         
       </ScrollView>
-      
+      </View>
     )
   }
   
