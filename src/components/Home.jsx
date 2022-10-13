@@ -90,6 +90,20 @@ const Home = () => {
           <Text className='text-5xl'>Users List</Text>
         </TouchableOpacity>
       </View>
+
+      <View className='justify-center items-center mt-10'>
+        <TouchableOpacity onPress={() => navigation.navigate('MapTest')}>
+          <Text className='text-5xl'>Map</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View className='justify-center items-center mt-10'>
+        <TouchableOpacity onPress={() => navigation.navigate('MyLocation')}>
+          <Text className='text-5xl'>Location</Text>
+        </TouchableOpacity>
+      </View>
+
+      
       
       <View className="flex-1  justify-center items-center mt-5  space-y-5">
         <Text>Username</Text>
