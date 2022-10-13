@@ -15,13 +15,11 @@ const Navbar = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   return (
-    <View className="flex-row justify-between p-5 bg-red-500">
-      <TouchableOpacity onPress={() => navigation.navigate('SearchPage')}>
+    <View className="flex-row justify-between pt-12 px-6 pb-4 bg-red-500">
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('CreateProfile')}>
-        <Text className="text-xl">Dancify</Text>
-      </TouchableOpacity>
+      <Text className="text-xl">Dancify</Text>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>
@@ -44,9 +42,21 @@ const Navbar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('SignUp')}
+            >
+              <Text className="text-xl text-white">SignUp</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
               onPress={() => navigation.navigate('Home')}
             >
               <Text className="text-xl text-white">Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('UsersList')}
+            >
+              <Text className="text-xl text-white">Users</Text>
             </TouchableOpacity>
             <Pressable
               style={[styles.button, styles.buttonClose]}
