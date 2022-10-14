@@ -10,6 +10,7 @@ import { firebaseConfig } from '../../config';
 import { pickImage,  askForPermission, uploadImage } from '../../photoutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios'
 
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
@@ -27,7 +28,11 @@ const initialValues = {
   role: "",
   range: 0,
   available: false,
-  about: ""
+  about: "",
+  location: {
+    latitude: 0, 
+    longitude: 0,
+  }
 }
 
 
@@ -51,10 +56,9 @@ const CreateProfile = () => {
   const [range, setRange] = useState(0)
   const [isAvailable, setIsAvailable] = useState(false);
   const [values, setValues] = useState(initialValues)
-
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
-  //const [photoLink, setPhotoLink] = useState('')
+  
 
   const navigation = useNavigation();
 
@@ -75,6 +79,19 @@ const CreateProfile = () => {
     }
     
   }
+
+  function  getCoords(postcode) {
+     axios.get(`https://api.postcodes.io/postcodes/${postcode}`)
+    .then((res) => {
+      
+      handleInputChange('location', {
+          latitude: res.data.result.latitude,
+          longitude: res.data.result.longitude,
+          })
+    })
+  }
+  console.log(values)
+  
 
   if (!permissionStatus) {
     return <Text>Loading</Text>;
@@ -110,15 +127,17 @@ const CreateProfile = () => {
 
   
   const handleInputChange = (val, val2) => {
+      
       setValues({...values,
         [val]: val2})
   }
   
   
-  const patchUser = () => {
+  const patchUser =  () => {
     
     const updateProfile = doc(db, "users", `${values.firstname}`);
     handleUploadPicture()
+    
     setDoc(updateProfile, values);
     navigation.navigate('Home')
     
@@ -201,6 +220,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
+        <Button title='Verify Postcode' onPress={()=> getCoords(values.postcode)}/>
         <Text>Dance Styles</Text>
         <Dropdown
         value={selectedItem}

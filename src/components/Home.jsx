@@ -60,8 +60,7 @@ const Home = () => {
 
   const navigation = useNavigation();
 
-  // Initialize Firebase
- 
+  
 
   const addUser = () => {
     setDoc(doc(db, 'users', `${username}`), {
@@ -69,7 +68,7 @@ const Home = () => {
       email: email,
       password: password,
     });
-    //navigation.navigate('CreateProfile')
+    
   };
 
 
@@ -91,11 +90,7 @@ const Home = () => {
         </TouchableOpacity>
       </View>
 
-      <View className='justify-center items-center mt-10'>
-        <TouchableOpacity onPress={() => navigation.navigate('MapTest')}>
-          <Text className='text-5xl'>Map</Text>
-        </TouchableOpacity>
-      </View>
+      
 
       <View className='justify-center items-center mt-10'>
         <TouchableOpacity onPress={() => navigation.navigate('MyLocation')}>

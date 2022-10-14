@@ -1,81 +1,119 @@
+
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Platform, Text, View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import {getUsers, } from '../../queryutils'
 
 import * as Location from 'expo-location';
 
+//const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
+
 export default function MyLocation() {
-  const [location, setLocation] = useState(null);
+  
   const [errorMsg, setErrorMsg] = useState(null);
-  const [loading, setLoading] = useState(false)
-    Location.geocodeAsync("12529 berlin").then((response) => {
-        console.log(response);
-    })
-    // console.log(myAddress);
+  const [mapRegion, setMapRegion] = useState({
+      latitude: 53.483959,
+      longitude: -2.244644,
+      latitudeDelta: 0.2022,
+      longitudeDelta: 0.2521,
+  })
+  const[isLoading, setIsLoading] = useState(false)
+  const[myLocation, setMyLocation] = useState({})
+  const [dancers, setDancers] = useState([])
+  const[liveLoading, setLiveLoading] = useState(false)
 
-    const { width, height } = Dimensions.get('window');
 
-    const ASPECT_RATIO = width / height;
-    const LATITUDE_DELTA = 0.0922;
+  useEffect(() => {
+    setIsLoading(true)
+    getUsers()
+    .then((response) => {
+        setDancers(response)
+        setIsLoading(false)
+    })  
+  }, [])
+  
+     
+
     
-    const lat = details.geometry.location.lat;
-    const lng = details.geometry.location.lng;
-    const latDelta = details.geometry.viewport.northeast.lat - details.geometry.viewport.southwest.lat;
-    const lngDelta = latDelta * ASPECT_RATIO;
     
-    let coordinate = {
-        latitude: lat,
-        longitude: lng,
-        latitudeDelta: latDelta,
-        longitudeDelta: lngDelta
-    };
     
-//   useEffect(() => {
-//     setLoading(true)
-//     (async () => {
+
+  
+    const userLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+      }
+      let location = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: true,
+      });
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
       
-//       let { status } = await Location.requestForegroundPermissionsAsync();
-//       if (status !== 'granted') {
-//         setErrorMsg('Permission to access location was denied');
-//         return;
-//       }
+    };
+    useEffect(() => {
+      setLiveLoading(true)
+      userLocation();
+      setLiveLoading(false)
+    },[]);
+   
+          
+          
+      
+ 
+      
+    
+    
+        
+     
+    
+  
+  
+  
+  if (liveLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    )
+  }
 
-//       let location = await Location.getCurrentPositionAsync({});
-//       setLocation(location);
-//       setLoading(false)
-//     })();
-//   }, [location]);
+  else {
+    return (
+      <View style={styles}>
+         <MapView style={styles.map}  initialRegion={mapRegion}>
+           
+              
+                {/* <Marker coordinate={{
+                  latitude: 53.47196,
+                  longitude: -2.238185,
+                }}
+                title="Marker" pinColor='blue'/> */}
+              
+          {dancers.map((dancer, index) => {
+            return (
+              <Marker key={index} coordinate={dancer.location} title='Dancer'/>
+            )
+          })}
+            
+        
+         <Marker
+              coordinate={mapRegion}
+              title="Marker"
+              pinColor='blue'
+            />
+        </MapView> 
+      </View>
+    );
+  }
 
-//   let text = 'Waiting..';
-//   if (errorMsg) {
-//     text = errorMsg;
-//   } else if (location) {
-//     text = JSON.stringify(location);
-//   }
 
-//   console.log(location.coords.altitude)
-// let latitude = location.coords.latitude
-// let longitude = location.coords.longitude
-if (loading) {
-console.log("loading");    
-} else {
-    console.log(location);
-}
-// console.log(location)
-// let longitude = location.coords.longitude
-// console.log(longitude)
-// console.log(getRegionForCoordinates([{latitude: latitude, longitude:longitude}]))
-
-
-
-  return (
-    <View>
-      {/* <MapView style={styles.map} initialRegion={{
-        latitude: 53.47208507425169,
-        longitude: -2.2380451618436488,
-      }}/> */}
-    </View>
-  );
+  
 }
 
 const styles = StyleSheet.create({
@@ -86,7 +124,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: 100,
-    height: 100
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
