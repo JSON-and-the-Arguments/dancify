@@ -50,29 +50,24 @@ export async function uploadImage(uri, path, fName) {
   return { url, fileName };
 }
 
-export async function getImages(path) {
-  getDownloadURL(ref(getStorage(app), `${path}/profilePicture.jpeg`)).then(
-    (url) => {
-      // `url` is the download URL for 'images/stars.jpg'
 
-      // This can be downloaded directly:
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = (event) => {
-        const blob = xhr.response;
-      };
-      xhr.open('GET', url);
-      xhr.send();
+export  async function getImages(path)  {
+    getDownloadURL(ref(getStorage(app), `${path}/profilePicture.jpeg`))
+    .then((url) => {
+    
+        
+    // This can be downloaded directly:
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+    };
+    xhr.open('GET', url);
+    xhr.send();
 
-      // Or inserted into an <img> element
-      //const img = document.getElementById('myimg');
-      //img.setAttribute('src', url);
-      //})
-      //.catch((error) => {
-      // Handle any errors
-    }
-  );
-  //console.log(url)
+   
+    });
+    
 }
 
 export async function displayPhoto() {

@@ -25,12 +25,14 @@ import { getUsers } from '../../queryutils';
 
 getUsers();
 
-const Home = () => {
+const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
+
+  
 
   const addUser = () => {
     setDoc(doc(db, 'users', `${username}`), {
@@ -38,6 +40,7 @@ const Home = () => {
       email: email,
       password: password,
     });
+    
   };
 
   useLayoutEffect(() => {
@@ -48,9 +51,21 @@ const Home = () => {
   }, []);
 
   return (
-    <View>
+    <View className='flex-1'>
       <Navbar />
-      <View className="  justify-center items-center mt-5  space-y-5">
+      
+
+      
+
+      <View className='justify-center items-center mt-10'>
+        <TouchableOpacity onPress={() => navigation.navigate('MyLocation')}>
+          <Text className='text-5xl'>Location</Text>
+        </TouchableOpacity>
+      </View>
+
+      
+      
+      <View className="flex-1  justify-center items-center mt-5  space-y-5">
         <Text>Username</Text>
         <TextInput
           value={username}
@@ -90,4 +105,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SignUp;

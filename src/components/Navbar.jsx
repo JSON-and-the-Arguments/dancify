@@ -54,6 +54,12 @@ const Navbar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('MyLocation')}
+            >
+              <Text className="text-xl text-white">Location</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
               onPress={() => navigation.navigate('UsersList')}
             >
               <Text className="text-xl text-white">Users</Text>
