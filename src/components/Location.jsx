@@ -4,13 +4,14 @@ import { Platform, Text, View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import {getUsers, } from '../../queryutils'
+import { useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
 
 export default function MyLocation() {
-  
+  const navigation = useNavigation()
   const [errorMsg, setErrorMsg] = useState(null);
   const [mapRegion, setMapRegion] = useState({
       latitude: 53.483959,
@@ -20,13 +21,14 @@ export default function MyLocation() {
   })
   const[isLoading, setIsLoading] = useState(false)
   const[myLocation, setMyLocation] = useState({})
-  const [dancers, setDancers] = useState([])
+  const[dancers, setDancers] = useState([])
   const[liveLoading, setLiveLoading] = useState(false)
 
+  const params = navigation.getState().routes[0].params;
 
   useEffect(() => {
     setIsLoading(true)
-    getUsers()
+    getUsers(params)
     .then((response) => {
         setDancers(response)
         setIsLoading(false)
@@ -95,8 +97,8 @@ export default function MyLocation() {
                 }}
                 title="Marker" pinColor='blue'/> */}
               
-          {dancers.map((dancer, index) => {
-            <Marker key={index} coordinate={location} title={firstname}/>   
+          {dancers?.map((dancer, index) => {
+            return <Marker key={index} coordinate={dancer.location} title={dancer.firstname}/>   
           })}
             
         

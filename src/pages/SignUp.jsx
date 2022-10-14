@@ -25,7 +25,7 @@ import { getUsers } from '../../queryutils';
 
 getUsers();
 
-const Home = () => {
+const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,13 +51,9 @@ const Home = () => {
   }, []);
 
   return (
-    <View>
+    <View className='flex-1'>
       <Navbar />
-      <View className='justify-center items-center mt-10'>
-        <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
-          <Text className='text-5xl'>Users List</Text>
-        </TouchableOpacity>
-      </View>
+      
 
       
 
@@ -109,4 +105,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SignUp;

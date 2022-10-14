@@ -58,6 +58,7 @@ const CreateProfile = () => {
   const [values, setValues] = useState(initialValues)
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [isVerified, setIsVerified] = useState(false)
   
 
   const navigation = useNavigation();
@@ -87,7 +88,9 @@ const CreateProfile = () => {
       handleInputChange('location', {
           latitude: res.data.result.latitude,
           longitude: res.data.result.longitude,
-          })
+      })
+      setIsVerified(true)
+      alert('Postcode is valid, press create button')
     })
   }
   console.log(values)
@@ -134,12 +137,17 @@ const CreateProfile = () => {
   
   
   const patchUser =  () => {
+    if (!isVerified) {
+      alert('You forgot to enter or validate your postcode')
+    }
+    else {
+      const updateProfile = doc(db, "users", `${values.firstname}`);
+      handleUploadPicture()
+      
+      setDoc(updateProfile, values);
+      navigation.navigate('Home')
+    }
     
-    const updateProfile = doc(db, "users", `${values.firstname}`);
-    handleUploadPicture()
-    
-    setDoc(updateProfile, values);
-    navigation.navigate('Home')
     
   };
   
