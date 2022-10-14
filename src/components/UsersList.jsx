@@ -8,6 +8,7 @@ import {ref, uploadBytes, getDownloadURL, getStorage} from 'firebase/storage'
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../config';
 import Navbar from './Navbar'
+import Location from './Location'
 
 const app = initializeApp(firebaseConfig);
 
@@ -73,6 +74,7 @@ const UsersList = () => {
           })}
         
       </ScrollView>
+      <Location/>
       </View>
     )
   }

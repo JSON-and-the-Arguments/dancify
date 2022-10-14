@@ -71,7 +71,7 @@ export default function MyLocation() {
     
         
      
-    
+  console.log(dancers)
   
   
   
@@ -96,9 +96,7 @@ export default function MyLocation() {
                 title="Marker" pinColor='blue'/> */}
               
           {dancers.map((dancer, index) => {
-            return (
-              <Marker key={index} coordinate={dancer.location} title='Dancer'/>
-            )
+            <Marker key={index} coordinate={location} title={firstname}/>   
           })}
             
         
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: 400,
+    height: 400,
   },
 });
