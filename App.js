@@ -32,16 +32,21 @@ export default function App() {
   return (
     <ContextWrapper>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            currentUser={currentUser}
-          />
-          <Stack.Screen name="CreateProfile" component={CreateProfile} />
-          <Stack.Screen name="Chats" component={Chats} />
-        </Stack.Navigator>
+        {!currentUser ? (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="CreateProfile" component={CreateProfile} />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              currentUser={currentUser}
+            />
+            <Stack.Screen name="Chats" component={Chats} />
+          </Stack.Navigator>
+        )}
       </NavigationContainer>
     </ContextWrapper>
   );

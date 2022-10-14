@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-import { db } from '../../firebase';
+import { db, signUp } from '../../firebase';
 import { setDoc, doc } from 'firebase/firestore';
 import { getUsers } from '../../queryutils';
 
@@ -17,19 +17,17 @@ const Home = () => {
   const navigation = useNavigation();
 
   const addUser = () => {
-    setDoc(doc(db, 'users', `${username}`), {
-      username: username,
-      email: email,
-      password: password,
+    signUp(email, password).then(() => {
+      // need to change this or remove it
+      setDoc(doc(db, 'users', `${username}`), {
+        username: username,
+        email: email,
+        password: password,
+      }).then(() => {
+        navigation.navigate('SignUp');
+      });
     });
   };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-      headerTitle: 'Home',
-    });
-  }, []);
 
   return (
     <View>
