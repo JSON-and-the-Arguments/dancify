@@ -54,6 +54,7 @@ const CreateProfile = () => {
   const [permissionStatus, setPermissionStatus] = useState(null);
 
   const navigation = useNavigation();
+  const { currentUser } = auth;
 
   useEffect(() => {
     (async () => {
@@ -82,13 +83,11 @@ const CreateProfile = () => {
     if (selectedImage) {
       const { url } = await uploadImage(
         selectedImage,
-
-        `userPictures/${user.uid}`,
+        `userPictures/${currentUser.uid}`,
         'profilePicture'
       );
       photoURL = url;
     }
-
     if (photoURL) {
       initialValues.image = photoURL;
     }
@@ -99,8 +98,9 @@ const CreateProfile = () => {
   };
 
   const patchUser = async () => {
-    const updateProf = doc(db, 'users', user.uid);
     const user = auth.currentUser;
+    console.log(user.uid);
+    const updateProf = doc(db, 'users', user.uid);
     await Promise.all([
       handleUploadPicture(),
       updateProfile(user, values),
