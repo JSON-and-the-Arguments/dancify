@@ -3,55 +3,27 @@ import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Navbar from './Navbar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Navbar from '../components/Navbar';
 import { initializeApp } from 'firebase/app';
-import { Firestore, getFirestore, initializeFirestore, firestore, getDocs } from 'firebase/firestore';
-import { setDoc, doc, updateDoc, getDoc, collection, query } from 'firebase/firestore';
+import {
+  Firestore,
+  getFirestore,
+  initializeFirestore,
+  firestore,
+  getDocs,
+} from 'firebase/firestore';
+import {
+  setDoc,
+  doc,
+  updateDoc,
+  getDoc,
+  collection,
+  query,
+} from 'firebase/firestore';
 import { firebaseConfig } from '../../config';
-import {getUsers} from '../../queryutils'
+import { getUsers } from '../../queryutils';
 
-// import {decode, encode} from 'base-64'
-
-// if (!global.btoa) {  global.btoa = encode }
-
-// if (!global.atob) { global.atob = decode }
-
-
-// const app = initializeApp(firebaseConfig);
-// const db = initializeFirestore(app, {
-//   experimentalForceLongPolling: true,
-//   useFetchStreams: false,
-// });
-
-
-// const getIT = async () => {
-//   const q = query(collection(db, 'users'))
-//   const querySnapshot = await getDocs(q)
-//   const newArray = []
-//   querySnapshot.forEach((doc) => {
-//     const {email, password, username,} = doc.data()
-//     const {id} = doc.id
-//     console.log(id, email, password, username)
-//     newArray.push(doc.data())
-//   })
-//   // const users = await firestore().collection('users').get()
-//   // const docRef = doc(db, "users", "pawel");
-//   // const docSnap = await getDoc(docRef);
-
-//   //   if (docSnap.exists()) {
-//   //     console.log("Document data:", docSnap.data());
-//   //   } else {
-//   //     // doc.data() will be undefined in this case
-//   //     console.log("No such document!");
-//   //   }
-
-//   console.log(newArray)
-// }
-
-getUsers()
-
-
+getUsers();
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -71,9 +43,6 @@ const Home = () => {
     
   };
 
-
-  
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -82,7 +51,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1">
+    <View>
       <Navbar />
       <View className='justify-center items-center mt-10'>
         <TouchableOpacity onPress={() => navigation.navigate('UsersList')}>
@@ -136,10 +105,8 @@ const Home = () => {
           />
         </View>
       </View>
-      
-    </SafeAreaView>
+    </View>
   );
 };
-
 
 export default Home;
