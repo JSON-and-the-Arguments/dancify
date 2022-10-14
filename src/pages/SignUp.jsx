@@ -1,9 +1,9 @@
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-import { db, signUp } from '../../firebase';
+import { db, signIn, signUp } from '../../firebase';
 import { setDoc, doc } from 'firebase/firestore';
 import { getUsers } from '../../queryutils';
 
@@ -13,20 +13,20 @@ const Home = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mode, setMode] = useState('signUp');
 
   const navigation = useNavigation();
-
-  const addUser = () => {
-    signUp(email, password).then(() => {
-      // need to change this or remove it
-      setDoc(doc(db, 'users', `${username}`), {
-        username: username,
-        email: email,
-        password: password,
-      }).then(() => {
-        navigation.navigate('SignUp');
+  const addUser = async () => {
+    if (mode === 'signUp') {
+      await signUp(email, password).then(() => {
+        navigation.navigate('CreateProfile');
       });
-    });
+    }
+    if (mode === 'logIn') {
+      await signIn(email, password).then(() => {
+        navigation.navigate('Home');
+      });
+    }
   };
 
   return (
@@ -62,11 +62,23 @@ const Home = () => {
         />
         <View>
           <Button
-            title="Sign Up"
+            title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
+            disabled={!email || !password}
             onPress={addUser}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
           />
         </View>
+        <TouchableOpacity
+          onPress={() =>
+            mode === 'signUp' ? setMode('logIn') : setMode('signUp')
+          }
+        >
+          <Text>
+            {mode === 'signUp'
+              ? 'Already have an account? Log in'
+              : "Don't have an account? Sign Up"}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -12,11 +12,12 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Dropdown from '../components/Dropdown';
 import Slider from '@react-native-community/slider';
 import { setDoc, doc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { pickImage, askForPermission, uploadImage } from '../../photoutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
+import { updateProfile } from 'firebase/auth';
 
 const initialValues = {
   firstname: '',
@@ -77,13 +78,12 @@ const CreateProfile = () => {
   }
 
   async function handleUploadPicture() {
-    const user = values.firstname;
     let photoURL;
     if (selectedImage) {
       const { url } = await uploadImage(
         selectedImage,
 
-        `userPictures/${user}`,
+        `userPictures/${user.uid}`,
         'profilePicture'
       );
       photoURL = url;
@@ -98,11 +98,16 @@ const CreateProfile = () => {
     setValues({ ...values, [val]: val2 });
   };
 
-  const patchUser = () => {
-    const updateProfile = doc(db, 'users', `${values.firstname}`);
-    handleUploadPicture();
-    setDoc(updateProfile, values);
-    navigation.navigate('Home');
+  const patchUser = async () => {
+    const updateProf = doc(db, 'users', user.uid);
+    const user = auth.currentUser;
+    await Promise.all([
+      handleUploadPicture(),
+      updateProfile(user, values),
+      setDoc(updateProf, { ...values, uid: user.uid }),
+    ]).then(() => {
+      navigation.navigate('Home');
+    });
   };
 
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);

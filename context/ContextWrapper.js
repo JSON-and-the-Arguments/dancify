@@ -1,4 +1,3 @@
-import { useLinkProps } from '@react-navigation/native';
 import { useState } from 'react';
 import Context from './Context';
 
