@@ -11,27 +11,12 @@ import {
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Dropdown from '../components/Dropdown';
 import Slider from '@react-native-community/slider';
-import {
-  setDoc,
-  doc,
-  updateDoc,
-  getDocs,
-  collection,
-} from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { firebaseConfig } from '../../config';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 import { pickImage, askForPermission, uploadImage } from '../../photoutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
 
 const initialValues = {
   firstname: '',

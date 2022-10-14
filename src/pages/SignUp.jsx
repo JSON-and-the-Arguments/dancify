@@ -1,26 +1,10 @@
-import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-import { initializeApp } from 'firebase/app';
-import {
-  Firestore,
-  getFirestore,
-  initializeFirestore,
-  firestore,
-  getDocs,
-} from 'firebase/firestore';
-import {
-  setDoc,
-  doc,
-  updateDoc,
-  getDoc,
-  collection,
-  query,
-} from 'firebase/firestore';
-import { firebaseConfig } from '../../config';
+import { db } from '../../firebase';
+import { setDoc, doc } from 'firebase/firestore';
 import { getUsers } from '../../queryutils';
 
 getUsers();
