@@ -1,15 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Platform, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import {getUsers, } from '../../queryutils'
+import {getUsers,  getUsersByQuery} from '../../queryutils'
 import { useNavigation } from '@react-navigation/native';
 import { getDistance } from 'geolib';
+import Slider from '@react-native-community/slider';
+import Dropdown from './Dropdown'
 
 import * as Location from 'expo-location';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
+
+const dance = ['all','salsa','bachata','kizomba','rumba',]
+const role = ['all', 'lead', 'follow', 'both']
 
 export default function MyLocation() {
   const navigation = useNavigation()
@@ -24,10 +29,45 @@ export default function MyLocation() {
   const[myLocation, setMyLocation] = useState({})
   const[dancers, setDancers] = useState([])
   const[liveLoading, setLiveLoading] = useState(false)
+  const[range, setRange] = useState(5)
+  const[selectedDance, setSelectedDance] = useState(null)
+  const[selectedRole, setSelectedRole] = useState(null)
+  const [query, setQuery] = useState({})
 
   const params = navigation.getState().routes[0].params;
 
-  console.log(params)
+  const handleInputChange = (query, val) => {
+      if (val === 'all') {
+        setIsLoading(true)
+        getUsers(params)
+        .then((response) => {
+            setDancers(response)
+          setIsLoading(false)
+        })  
+      }
+      else {
+        setIsLoading(true)
+        getUsersByQuery(query, val)
+        .then((response) => {
+        setDancers(response)
+        setIsLoading(false)
+      })
+      }
+      
+  }
+
+  
+
+  // const showDancestyles = (item) => {
+  //   setIsLoading(true)
+  //     getUsersByQuery(item)
+  //     .then((response) => {
+  //       setDancers(response)
+  //       setIsLoading(false)
+  //     })
+   
+    
+  // }
 
   useEffect(() => {
     setIsLoading(true)
@@ -36,11 +76,11 @@ export default function MyLocation() {
         setDancers(response)
         setIsLoading(false)
     })  
-  }, [])
+  }, [params])
   
      
 
-    
+    //console.log(dancers)
     
     
 
@@ -71,7 +111,27 @@ export default function MyLocation() {
       setLiveLoading(false)
     },[]);
    
-          
+    // const showDancestyles = () => {
+    //   setIsLoading(true)
+    //   getUsersByQuery()
+    //   .then((response) => {
+    //     setDancers(response)
+    //     setIsLoading(false)
+    //   })
+      
+    // }
+
+    const onSelect = (item) => {
+      setSelectedDance(item)
+      handleInputChange("dancestyles", item)
+      
+    }
+
+    const onSelect2 = (item) => {
+      setSelectedRole(item)
+      handleInputChange("role", item)
+      
+    }
           
       
  
@@ -87,7 +147,7 @@ export default function MyLocation() {
     
         
      
-  //console.log(dancers)
+  //console.log(query)
   
   
   
@@ -124,7 +184,7 @@ export default function MyLocation() {
     }
     })} */}
 
-    {dancers.filter((dancer) => (Math.round((getDistance(dancer.location, myLocation)/1000)*0.62137)) <=4)
+    {dancers.filter((dancer) => (Math.round((getDistance(dancer.location, myLocation)/1000)*0.62137)) <= range )
     .map((filteredDancer, index) => {
       return <Marker key={index} coordinate={filteredDancer.location} title={filteredDancer.firstname}/>
     })}
@@ -136,6 +196,50 @@ export default function MyLocation() {
               pinColor='blue'
             />
         </MapView> 
+        <View className='mt-10 items-center'>
+        <Slider
+
+          step={0.5}
+          value={range}
+          onSlidingComplete={(value) => { 
+            setRange(value)
+          }
+          }
+          style={{width: 320, height: 40}}
+          minimumValue={0}
+          maximumValue={40}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+          />
+
+
+        </View>
+
+        <View className='mt-20 items-center'>
+          <Dropdown
+          value={selectedDance}
+          data={dance}
+          onSelect={onSelect}/>
+        </View>
+        
+        
+        
+        
+        <View className='mt-20 items-center'>
+          <Dropdown
+          value={selectedRole}
+          data={role}
+          onSelect={onSelect2}/>
+        </View>
+        
+
+        {/* <View className='mt-10'>
+              <Button
+                title="Kizomba"
+                onPress={showDancestyles}
+                className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
+              />
+        </View> */}
       </View>
     );
   }
@@ -151,6 +255,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
+    
   },
   map: {
     width: 400,

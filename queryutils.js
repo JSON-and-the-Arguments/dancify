@@ -10,6 +10,7 @@ import {
   setDoc,
   collection,
   query,
+  where,
 } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
@@ -34,17 +35,22 @@ exports.getUsers = async (params) => {
   const q = query(collection(db, 'users'));
   const querySnapshot = await getDocs(q);
   const newArray = [];
+  
 
   if (paramToQ === '' || paramToQ === null) {
     querySnapshot.forEach((doc) => {
       const { email, password, username } = doc.data();
+      
       newArray.push(doc.data());
+      
     });
   } else {
     querySnapshot.forEach((doc) => {
       const { email, password, username } = doc.data();
+    
       if (doc.id === paramToQ) {
         newArray.push(doc.data());
+        
       }
     });
   }
@@ -60,4 +66,41 @@ exports.getUsers = async (params) => {
   //     console.log("No such document!");
   //   }
   return newArray;
+};
+
+exports.getUsersByQuery = async (key, item) => {
+  //let paramToQ = params == undefined ? '' : params.user;
+  const q = query(collection(db, 'users'), where(key, '==', item));
+  const querySnapshot = await getDocs(q);
+  const newArray = []
+  
+  querySnapshot.forEach((doc) => {
+    newArray.push(doc.data());
+    console.log(newArray)
+    
+  })
+  return newArray
+  //const newArray = [];
+  //console.log(params.user)
+
+  // if (paramToQ === '' || paramToQ === null) {
+  //   querySnapshot.forEach((doc) => {
+  //     // const { email, password, username } = doc.data();
+  //     const {postcode, firstname, dancestyles} = doc.data()
+  //     newArray.push(doc.data());
+  //     console.log(newArray)
+  //   });
+  // } else {
+  //   querySnapshot.forEach((doc) => {
+  //     //const { email, password, username } = doc.data();
+  //       const {postcode, firstname} = doc.data()
+  //     if (doc.id === paramToQ) {
+  //       newArray.push(doc.data());
+  //       console.log(newArray)
+  //     }
+  //   });
+  // }
+
+  
+  // return newArray;
 };
