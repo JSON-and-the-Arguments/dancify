@@ -13,8 +13,14 @@ import * as Location from 'expo-location';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
 
-const dance = ['all','salsa','bachata','kizomba','rumba',]
-const role = ['all', 'lead', 'follow', 'both']
+const dance = ['salsa','bachata','kizomba','rumba',]
+const role = ['lead', 'follow', 'both']
+
+const initialQuery = {
+  dancestyles: '',
+  role: '',
+}
+
 
 export default function MyLocation() {
   const navigation = useNavigation()
@@ -29,45 +35,21 @@ export default function MyLocation() {
   const[myLocation, setMyLocation] = useState({})
   const[dancers, setDancers] = useState([])
   const[liveLoading, setLiveLoading] = useState(false)
-  const[range, setRange] = useState(5)
+  const[range, setRange] = useState(40)
   const[selectedDance, setSelectedDance] = useState(null)
   const[selectedRole, setSelectedRole] = useState(null)
-  const [query, setQuery] = useState({})
+  const [query, setQuery] = useState(initialQuery)
 
   const params = navigation.getState().routes[0].params;
 
-  const handleInputChange = (query, val) => {
-      if (val === 'all') {
-        setIsLoading(true)
-        getUsers(params)
-        .then((response) => {
-            setDancers(response)
-          setIsLoading(false)
-        })  
-      }
-      else {
-        setIsLoading(true)
-        getUsersByQuery(query, val)
-        .then((response) => {
-        setDancers(response)
-        setIsLoading(false)
-      })
-      }
+
+  const handleInputChange = (val, val2) => {
       
-  }
+    setQuery({...query,
+      [val]: val2})
+}
 
   
-
-  // const showDancestyles = (item) => {
-  //   setIsLoading(true)
-  //     getUsersByQuery(item)
-  //     .then((response) => {
-  //       setDancers(response)
-  //       setIsLoading(false)
-  //     })
-   
-    
-  // }
 
   useEffect(() => {
     setIsLoading(true)
@@ -80,7 +62,7 @@ export default function MyLocation() {
   
      
 
-    //console.log(dancers)
+
     
     
 
@@ -111,45 +93,32 @@ export default function MyLocation() {
       setLiveLoading(false)
     },[]);
    
-    // const showDancestyles = () => {
-    //   setIsLoading(true)
-    //   getUsersByQuery()
-    //   .then((response) => {
-    //     setDancers(response)
-    //     setIsLoading(false)
-    //   })
-      
-    // }
+    
 
-    const onSelect = (item) => {
+
+    const onDanceSelect = (item) => {
       setSelectedDance(item)
       handleInputChange("dancestyles", item)
-      
+      setIsLoading(true)
+      getUsersByQuery({...query, dancestyles:item})
+      .then((response) => {
+            setDancers(response)
+            setIsLoading(false)
+          })
     }
-
-    const onSelect2 = (item) => {
+    const onRoleSelect = (item) => {
       setSelectedRole(item)
       handleInputChange("role", item)
-      
-    }
-          
-      
- 
-  //  dancers.map((dancer) => {
-  //   const distance = getDistance(dancer.location, myLocation)
-  //   //console.log(`${Math.round((distance/1000)*0.62137)}miles from ${dancer.firstname}`)
-  //   const distanceMiles = Math.round((distance/1000)*0.62137)
-  //   if (distanceMiles <= 5) {
-  //     //console.log(dancer.firstname)
-  //   }
-  //  })
-    
-    
+      setIsLoading(true)
+      getUsersByQuery({...query, role:item})
         
-     
-  //console.log(query)
-  
-  
+      .then((response) => {
+             setDancers(response)
+            setIsLoading(false)
+           })
+    }
+
+
   
   if (liveLoading) {
     return (
@@ -175,17 +144,10 @@ export default function MyLocation() {
             return <Marker key={index} coordinate={dancer.location} title={dancer.firstname}/>   
           })} */}
 
-    {/* {dancers.map((dancer, index) => {
-    const distance = getDistance(dancer.location, myLocation)
-    //console.log(`${Math.round((distance/1000)*0.62137)}miles from ${dancer.firstname}`)
-    const distanceMiles = Math.round((distance/1000)*0.62137)
-    {distanceMiles <= 5? <Marker key={index} coordinate={dancer.location} title={dancer.firstname}/> : <></>
-      
-    }
-    })} */}
 
     {dancers.filter((dancer) => (Math.round((getDistance(dancer.location, myLocation)/1000)*0.62137)) <= range )
-    .map((filteredDancer, index) => {
+    .map((filteredDancer, index,) => {
+      
       return <Marker key={index} coordinate={filteredDancer.location} title={filteredDancer.firstname}/>
     })}
             
@@ -203,6 +165,8 @@ export default function MyLocation() {
           value={range}
           onSlidingComplete={(value) => { 
             setRange(value)
+            
+            
           }
           }
           style={{width: 320, height: 40}}
@@ -219,7 +183,7 @@ export default function MyLocation() {
           <Dropdown
           value={selectedDance}
           data={dance}
-          onSelect={onSelect}/>
+          onSelect={onDanceSelect}/>
         </View>
         
         
@@ -229,17 +193,8 @@ export default function MyLocation() {
           <Dropdown
           value={selectedRole}
           data={role}
-          onSelect={onSelect2}/>
+          onSelect={onRoleSelect}/>
         </View>
-        
-
-        {/* <View className='mt-10'>
-              <Button
-                title="Kizomba"
-                onPress={showDancestyles}
-                className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
-              />
-        </View> */}
       </View>
     );
   }
