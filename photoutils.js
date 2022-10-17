@@ -53,9 +53,6 @@ export async function uploadImage(uri, path, fName) {
 export async function getImages(path) {
   getDownloadURL(ref(getStorage(app), `${path}/profilePicture.jpeg`)).then(
     (url) => {
-      // `url` is the download URL for 'images/stars.jpg'
-
-      // This can be downloaded directly:
       const xhr = new XMLHttpRequest();
       xhr.responseType = 'blob';
       xhr.onload = (event) => {
@@ -63,41 +60,20 @@ export async function getImages(path) {
       };
       xhr.open('GET', url);
       xhr.send();
-
-      // Or inserted into an <img> element
-      //const img = document.getElementById('myimg');
-      //img.setAttribute('src', url);
-      //})
-      //.catch((error) => {
-      // Handle any errors
     }
   );
-  //console.log(url)
+  
 }
 
 export async function displayPhoto() {
-  // Create a reference from an HTTPS URL
-  // Note that in the URL, characters are URL escaped!
+  
   const storage = getStorage();
   const httpsReference = ref(
     storage,
     'gs://dancify-728c9.appspot.com/userPictures/Chad/profilePicture.jpeg'
   );
   getDownloadURL(httpsReference);
-  // .then((url) => {
-  //   // `url` is the download URL for 'images/stars.jpg'
-
-  //     console.log(url, 'Photo utils HEEEEEEEEEEEEEEEEREEEEEEEEEEE')
-  //  // This can be downloaded directly:
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.responseType = 'blob';
-  //   xhr.onload = (event) => {
-  //     const blob = xhr.response;
-  //   };
-  //   xhr.open('GET', url);
-  //   console.log(url, 'BOTTTTOM UTILS')
-  //   xhr.send();
-  // })
+  
 }
 
 const palette = {

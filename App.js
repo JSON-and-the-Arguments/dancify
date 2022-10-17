@@ -10,7 +10,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import ContextWrapper from './context/ContextWrapper';
 import Chat from './src/pages/Chat';
-import Contacts from './src/pages/Contacts';
+import Location from './src/components/Location'
+
 
 const Stack = createNativeStackNavigator();
 
@@ -34,12 +35,9 @@ export default function App() {
   return (
     <ContextWrapper>
       <NavigationContainer>
-        {/* {!currentUser ? ( */}
+        
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="SignUp" component={SignUp} />
-          {/* </Stack.Navigator> */}
-          {/* ) : ( */}
-          {/* <Stack.Navigator screenOptions={{ headerShown: false }}> */}
           <Stack.Screen name="CreateProfile" component={CreateProfile} />
           <Stack.Screen
             name="Home"
@@ -48,9 +46,9 @@ export default function App() {
           ></Stack.Screen>
           <Stack.Screen name="Chats" component={Chats} />
           <Stack.Screen name="Chat" component={Chat} />
-          {/* <Stack.Screen name="Contacts" component={Contacts} /> */}
+          <Stack.Screen name="MyLocation" component={Location} />
         </Stack.Navigator>
-        {/* )} */}
+        
       </NavigationContainer>
     </ContextWrapper>
   );

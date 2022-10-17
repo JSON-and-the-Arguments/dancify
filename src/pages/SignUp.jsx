@@ -1,10 +1,8 @@
 import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-import { db, signIn, signUp } from '../../firebase';
-import { setDoc, doc } from 'firebase/firestore';
+import { signIn, signUp } from '../../firebase';
 import { getUsers } from '../../queryutils';
 
 getUsers();
@@ -33,15 +31,7 @@ const SignUp = () => {
     <View>
       <Navbar />
       <View className="  justify-center items-center mt-5  space-y-5">
-        <Text>Username</Text>
-        <TextInput
-          value={username}
-          onChangeText={setUsername}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="username"
-          required
-          keyboardType="default"
-        />
+        
         <Text>Email</Text>
         <TextInput
           value={email}

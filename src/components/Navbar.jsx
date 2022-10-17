@@ -54,16 +54,17 @@ const Navbar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('MyLocation')}
+            >
+              <Text className="text-xl text-white">Location</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
               onPress={() => navigation.navigate('Chats')}
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('Chat')}
-            >
-              <Text className="text-xl text-white">Chat</Text>
-            </TouchableOpacity>
+            
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
               onPress={() => navigation.navigate('Contacts')}

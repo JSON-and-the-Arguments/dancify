@@ -19,9 +19,7 @@ const SearchPage = () => {
       setLoading(false);
     });
   }, [params]);
-  {
-    console.log(navigation.getState().routes[0].params);
-  }
+  
 
   if (loading) {
     return (

@@ -7,8 +7,9 @@ import {
   Button,
   Switch,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import Dropdown from '../components/Dropdown';
 import Slider from '@react-native-community/slider';
 import { setDoc, doc } from 'firebase/firestore';
