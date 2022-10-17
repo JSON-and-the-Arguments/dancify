@@ -1,5 +1,6 @@
 import { Image, Text, View } from 'react-native';
 import placeholderImage from '../../assets/adaptive-icon.png';
+import AddMessage from './AddMessage';
 
 const UserCard = ({ user }) => {
   return (
@@ -13,6 +14,7 @@ const UserCard = ({ user }) => {
       <View className="border-2 w-1/2 items-center">
         <Text>Name {user.firstname}</Text>
         <Text>Dance style: {user.dancestyles}</Text>
+        <AddMessage user={user} />
       </View>
     </View>
   );

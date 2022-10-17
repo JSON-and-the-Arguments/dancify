@@ -9,7 +9,7 @@ import { getUsers } from '../../queryutils';
 
 getUsers();
 
-const Home = () => {
+const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -84,4 +84,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SignUp;

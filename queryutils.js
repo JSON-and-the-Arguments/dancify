@@ -10,6 +10,7 @@ import {
   setDoc,
   collection,
   query,
+  addDoc,
 } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
@@ -60,4 +61,15 @@ exports.getUsers = async (params) => {
   //     console.log("No such document!");
   //   }
   return newArray;
+};
+
+exports.addContact = async (uid, userB) => {
+  console.log(uid, `${userB} <<<`);
+  return await setDoc(
+    doc(
+      collection(doc(collection(db, 'users'), `${uid}`), 'contacts'),
+      `${userB}`
+    ),
+    { uid: `${userB}` }
+  );
 };

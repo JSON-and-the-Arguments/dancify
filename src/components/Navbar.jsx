@@ -64,6 +64,12 @@ const Navbar = () => {
             >
               <Text className="text-xl text-white">Chat</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('Contacts')}
+            >
+              <Text className="text-xl text-white">Contacts</Text>
+            </TouchableOpacity>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}

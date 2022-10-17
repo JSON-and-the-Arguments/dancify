@@ -99,7 +99,6 @@ const CreateProfile = () => {
 
   const patchUser = async () => {
     const user = auth.currentUser;
-    console.log(user.uid);
     const updateProf = doc(db, 'users', user.uid);
     await Promise.all([
       handleUploadPicture(),

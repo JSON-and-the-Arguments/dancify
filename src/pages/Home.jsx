@@ -33,6 +33,7 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
+        {console.log(users, 'users')}
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return <UserCard key={index} user={user} />;

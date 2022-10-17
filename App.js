@@ -10,6 +10,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import ContextWrapper from './context/ContextWrapper';
 import Chat from './src/pages/Chat';
+import Contacts from './src/pages/Contacts';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,9 +45,10 @@ export default function App() {
             name="Home"
             component={Home}
             currentUser={currentUser}
-          />
+          ></Stack.Screen>
           <Stack.Screen name="Chats" component={Chats} />
           <Stack.Screen name="Chat" component={Chat} />
+          {/* <Stack.Screen name="Contacts" component={Contacts} /> */}
         </Stack.Navigator>
         {/* )} */}
       </NavigationContainer>
