@@ -25,7 +25,7 @@ const Chats = () => {
         ...doc.data(),
         id: doc.id,
         userB: doc.data().users.find((user) => {
-          console.log(doc.id, '<<<');
+          
           return user.id !== currentUser.uid;
         }),
       }));
@@ -35,10 +35,6 @@ const Chats = () => {
     return () => logout();
   }, []);
 
-  // const getUserB = (currentUser) => {
-  //   const userB =
-  // }
-  console.log(rooms);
   return (
     <View>
       <Navbar />
@@ -63,7 +59,7 @@ const Chats = () => {
           </View>
         );
       })}
-      <Text>{currentUser.uid}</Text>
+   
     </View>
   );
 };

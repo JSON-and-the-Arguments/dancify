@@ -16,7 +16,7 @@ import * as Location from 'expo-location';
 const dance = [{id:1 , name:'salsa' },{id:2 , name:'bachata' },{id:3 , name:'kizomba' },{id:4 , name:'rumba' }]
 const role = [{id:1 , name:'lead' }, {id:2 , name:'follow' }, {id:3 , name:'both' }]
 
-let item = item.name 
+// let item = item.name 
 
 const initialQuery = {
   dancestyles: '',
@@ -93,20 +93,20 @@ export default function MyLocation() {
 
 
     const onDanceSelect = (item) => {
-      setSelectedDance(item)
-      handleInputChange("dancestyles", item)
+      setSelectedDance(item.name)
+      handleInputChange("dancestyles", item.name)
       setIsLoading(true)
-      getUsersByQuery({...query, dancestyles:item})
+      getUsersByQuery({...query, dancestyles:item.name})
       .then((response) => {
             setDancers(response)
             setIsLoading(false)
           })
     }
     const onRoleSelect = (item) => {
-      setSelectedRole(item)
-      handleInputChange("role", item)
+      setSelectedRole(item.name)
+      handleInputChange("role", item.name)
       setIsLoading(true)
-      getUsersByQuery({...query, role:item})
+      getUsersByQuery({...query, role:item.name})
         
       .then((response) => {
              setDancers(response)

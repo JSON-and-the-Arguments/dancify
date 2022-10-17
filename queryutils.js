@@ -64,7 +64,7 @@ exports.getUsers = async (params) => {
 };
 
 exports.addContact = async (uid, userB) => {
-  console.log(uid, `${userB} <<<`);
+  
   return await setDoc(
     doc(
       collection(doc(collection(db, 'users'), `${uid}`), 'contacts'),
@@ -75,7 +75,7 @@ exports.addContact = async (uid, userB) => {
 };
 
 exports.getUsersByQuery = async (item) => {
-  console.log(item)
+  
   
   let param1 = item.dancestyles == undefined ? '' : item.dancestyles
   let param2 = item.role == undefined ? '' : item.role
