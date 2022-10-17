@@ -19,6 +19,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import { updateProfile } from 'firebase/auth';
+import axios from 'axios';
 
 const initialValues = {
   firstname: '',
@@ -53,6 +54,7 @@ const CreateProfile = () => {
   const [values, setValues] = useState(initialValues);
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [isVerified, setIsVerified] = useState(false)
 
   const navigation = useNavigation();
   const { currentUser } = auth;
@@ -98,16 +100,35 @@ const CreateProfile = () => {
     setValues({ ...values, [val]: val2 });
   };
 
+  function  getCoords(postcode) {
+    axios.get(`https://api.postcodes.io/postcodes/${postcode}`)
+   .then((res) => {
+     
+     handleInputChange('location', {
+         latitude: res.data.result.latitude,
+         longitude: res.data.result.longitude,
+     })
+     setIsVerified(true)
+     alert('Postcode is valid, press create button')
+   })
+  }
+
   const patchUser = async () => {
     const user = auth.currentUser;
     const updateProf = doc(db, 'users', user.uid);
-    await Promise.all([
-      handleUploadPicture(),
-      updateProfile(user, values),
-      setDoc(updateProf, { ...values, uid: user.uid }),
-    ]).then(() => {
-      navigation.navigate('Home');
-    });
+    if (!isVerified) {
+      alert('You forgot to enter or validate your postcode')
+    }
+    else {
+      await Promise.all([
+        handleUploadPicture(),
+        updateProfile(user, values),
+        setDoc(updateProf, { ...values, uid: user.uid }),
+      ]).then(() => {
+        navigation.navigate('Home');
+      });
+    }
+    
   };
 
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);
@@ -122,7 +143,7 @@ const CreateProfile = () => {
   };
 
   return (
-    <View>
+    <>
       <Navbar />
       <ScrollView
         contentContainerStyle={{
@@ -185,6 +206,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
+        <Button title='Verify Postcode' onPress={()=> getCoords(values.postcode)}/>
         <Text>Dance Styles</Text>
         <Dropdown value={selectedItem} data={dance} onSelect={onSelect} />
 
@@ -232,7 +254,7 @@ const CreateProfile = () => {
           />
         </View>
       </ScrollView>
-    </View>
+    </>
   );
 };
 

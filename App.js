@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
-import CreateProfile from './src/components/CreateProfile';
+import CreateProfile from './src/pages/CreateProfile';
 import Home from './src/pages/Home';
 import Chats from './src/pages/Chats';
 import { Text } from 'react-native';

@@ -47,10 +47,6 @@ const Chat = () => {
         };
         try {
           await setDoc(roomRef, roomData);
-          // console.log(userB, roomId);
-          // await setParams({ userB: userB, room: roomId });
-          // console.log(route.params, 'params');
-          // console.log(room, 'room');
         } catch (error) {
           console.log(error);
         }
@@ -58,7 +54,7 @@ const Chat = () => {
     })();
   }, []);
 
-  console.log(roomId, 'Room');
+
 
   useEffect(() => {
     const logout = onSnapshot(roomMessagesRef, (querySnapshot) => {
