@@ -6,14 +6,17 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getUsers } from '../../queryutils';
+import { getUsers} from '../../queryutils';
 import UserCard from '../components/UserCard';
 import Search from '../components/Search';
 import { firebaseConfig } from '../../config';
 import Navbar from '../components/Navbar';
 import { useNavigation } from '@react-navigation/native';
+
+
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -28,7 +31,7 @@ const SearchPage = () => {
     });
   }, [params]);
   {
-    console.log(navigation.getState().routes[0].params);
+    //console.log(navigation.getState().routes[0].params);
   }
 
   if (loading) {
@@ -47,6 +50,11 @@ const SearchPage = () => {
           })}
         </ScrollView>
         <Search />
+        
+        
+        
+      
+      
       </View>
     );
   }

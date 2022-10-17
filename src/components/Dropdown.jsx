@@ -17,7 +17,7 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
         onPress={() => setShowOption(!showOption)}
       >
         <Text className="ml-3">
-          {!!value ? value?.name : 'Choose an option'}
+          {!!value ? value : 'Choose an option'}
         </Text>
         <AntDesign
           name="caretdown"
@@ -34,7 +34,7 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
                 key={index}
                 onPress={() => onSelectedItem(item)}
               >
-                <Text> {item.name}</Text>
+                <Text> {item.name }</Text>
               </TouchableOpacity>
             );
           })}
