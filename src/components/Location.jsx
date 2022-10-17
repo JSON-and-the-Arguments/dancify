@@ -13,8 +13,10 @@ import * as Location from 'expo-location';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
 
-const dance = ['salsa','bachata','kizomba','rumba',]
-const role = ['lead', 'follow', 'both']
+const dance = [{id:1 , name:'salsa' },{id:2 , name:'bachata' },{id:3 , name:'kizomba' },{id:4 , name:'rumba' }]
+const role = [{id:1 , name:'lead' }, {id:2 , name:'follow' }, {id:3 , name:'both' }]
+
+let item = item.name 
 
 const initialQuery = {
   dancestyles: '',
