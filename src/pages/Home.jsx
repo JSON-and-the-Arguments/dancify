@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getUsers } from '../../queryutils';
@@ -14,6 +15,8 @@ import Search from '../components/Search';
 import { firebaseConfig } from '../../config';
 import Navbar from '../components/Navbar';
 import { useNavigation } from '@react-navigation/native';
+import SingleProfile from './SingleProfile';
+import { nanoid } from 'nanoid';
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -41,9 +44,11 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
-        <ScrollView horizontal={true}>
+        <ScrollView  horizontal={true}>
           {users?.map((user, index) => {
-            return <UserCard key={index} user={user} />;
+            return (<TouchableOpacity onPress={() => navigation.navigate('SingleProfile', {"user": user})} key={nanoid()}>
+              <UserCard key={index} user={user} />
+              </TouchableOpacity>)
           })}
         </ScrollView>
         <Search />
