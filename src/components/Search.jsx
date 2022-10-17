@@ -9,7 +9,6 @@ const Search = () => {
   const navigation = useNavigation();
   return (
     <View>
-      {/* {console.log(navigation.getState().routes[0].params)} */}
       <Text className="mx-8">Range: {range} miles</Text>
       <Slider
         step={5}

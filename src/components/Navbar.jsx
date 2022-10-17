@@ -60,9 +60,16 @@ const Navbar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('UsersList')}
+              onPress={() => navigation.navigate('Chats')}
             >
-              <Text className="text-xl text-white">Users</Text>
+              <Text className="text-xl text-white">Chats</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('Contacts')}
+            >
+              <Text className="text-xl text-white">Contacts</Text>
             </TouchableOpacity>
             <Pressable
               style={[styles.button, styles.buttonClose]}

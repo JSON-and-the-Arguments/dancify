@@ -1,22 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  ActivityIndicator,
-  Button,
-} from 'react-native';
+import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getUsers} from '../../queryutils';
+import { getUsers } from '../../queryutils';
 import UserCard from '../components/UserCard';
 import Search from '../components/Search';
-import { firebaseConfig } from '../../config';
 import Navbar from '../components/Navbar';
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -30,9 +19,7 @@ const SearchPage = () => {
       setLoading(false);
     });
   }, [params]);
-  {
-    //console.log(navigation.getState().routes[0].params);
-  }
+  
 
   if (loading) {
     return (
@@ -44,17 +31,13 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
+        {console.log(users, 'users')}
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return <UserCard key={index} user={user} />;
           })}
         </ScrollView>
         <Search />
-        
-        
-        
-      
-      
       </View>
     );
   }
