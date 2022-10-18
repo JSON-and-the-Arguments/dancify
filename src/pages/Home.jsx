@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -7,16 +7,16 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
-} from 'react-native';
-import { useState, useEffect } from 'react';
-import { getUsers } from '../../queryutils';
-import UserCard from '../components/UserCard';
-import Search from '../components/Search';
-import { firebaseConfig } from '../../config';
-import Navbar from '../components/Navbar';
-import { useNavigation } from '@react-navigation/native';
-import SingleProfile from './SingleProfile';
-import { nanoid } from 'nanoid';
+} from "react-native";
+import { useState, useEffect } from "react";
+import { getUsers } from "../../queryutils";
+import UserCard from "../components/UserCard";
+import Search from "../components/Search";
+import { firebaseConfig } from "../../config";
+import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
+import SingleProfile from "./SingleProfile";
+import { nanoid } from "nanoid";
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -31,7 +31,7 @@ const SearchPage = () => {
     });
   }, [params]);
   {
-    console.log(navigation.getState().routes[0].params);
+    //console.log(navigation.getState().routes[0].params);
   }
 
   if (loading) {
@@ -44,11 +44,20 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
-        <ScrollView  horizontal={true}>
+        <ScrollView horizontal={true}>
           {users?.map((user, index) => {
-            return (<TouchableOpacity onPress={() => navigation.navigate('SingleProfile', {"user": user})} key={nanoid()}>
-              <UserCard key={index} user={user} />
-              </TouchableOpacity>)
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("SingleProfile", {
+                    user: user.uid,
+                  })
+                }
+                key={nanoid()}
+              >
+                <UserCard key={index} user={user} />
+              </TouchableOpacity>
+            );
           })}
         </ScrollView>
         <Search />
@@ -65,11 +74,11 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 10,
   },
 });

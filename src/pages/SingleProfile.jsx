@@ -1,45 +1,46 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
-import Navbar from '../components/Navbar'
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
 
-const SingleProfile = () => {
-    const navigation = useNavigation();
-    const UserObj = navigation.getState().routes[1].params.user
-    console.log(UserObj.image);
-    const img = UserObj.image
+import { getUser } from "../../queryutils";
+
+const SingleProfile = ({ route, navigation }) => {
+  const { user } = route.params;
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    getUser(user).then((res) => {
+      return setProfile(res);
+    });
+  }, []);
+
   return (
-      <View>
-        <Navbar />
-        <View>
-         <Image 
-        key={UserObj.firstname}
-        styles={styles.img}
-         className="w-full h-1/2"
-        source={{uri:img }}
-      /> 
-      </View>
-        <View>
-        
-            <Text>{UserObj.firstname}</Text>
-            <Text>{UserObj.lastname}</Text>
-            <Text>{UserObj.dancestyles}</Text>
-            <Text>Location: {UserObj.postcode}</Text>
-            <Text>Availability: {UserObj.available}</Text>
+    <View className="bg-black-100">
+      <Navbar />
+      <ScrollView>
 
+      <Image
+        className="w-20 h-20 border-2 bg-black-100"
+        source={{
+          uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${profile.uid}/profilePicture.jpeg`,
+        }}
+      />
 
-            <Text>{UserObj.about}</Text>
-
-    
-        </View>
+       <View>
+        <Text>{profile.firstname}</Text>
+        <Text className="bg-red-100">{profile.lastname}</Text>
+        <Text>{profile.dancestyles}</Text>
+        <Text>{profile.role}</Text>
+      </View> 
+      </ScrollView>
     </View>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create({
-    img: {
-      height: 20,
-      width: 20,
-}})
-
-export default SingleProfile
+// const styles = StyleSheet.create({
+//   img: {
+//     height: 20,
+//     width: 20,
+//   },
+export default SingleProfile;
