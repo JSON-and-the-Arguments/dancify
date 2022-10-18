@@ -1,3 +1,4 @@
+
 import { Image, Text, View } from 'react-native';
 import placeholderImage from '../../assets/adaptive-icon.png';
 import AddMessage from './AddMessage';
@@ -8,7 +9,7 @@ const UserCard = ({ user }) => {
       <Image
         className="w-full h-1/2"
         source={{
-          uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user.firstname}/profilePicture.jpeg`,
+          uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user.uid}/profilePicture.jpeg`,
         }}
       />
       <View className="border-2 w-1/2 items-center">
@@ -21,3 +22,4 @@ const UserCard = ({ user }) => {
 };
 
 export default UserCard;
+

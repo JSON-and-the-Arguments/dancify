@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
@@ -19,7 +20,6 @@ const SearchPage = () => {
       setLoading(false);
     });
   }, [params]);
-  
 
   if (loading) {
     return (
@@ -34,7 +34,18 @@ const SearchPage = () => {
         
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
-            return <UserCard key={index} user={user} />;
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("SingleProfile", {
+                    user: user.uid,
+                  })
+                }
+                key={nanoid()}
+              >
+                <UserCard key={index} user={user} />
+              </TouchableOpacity>
+            );
           })}
         </ScrollView>
         <Search />
@@ -51,11 +62,11 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 10,
   },
 });

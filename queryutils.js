@@ -1,3 +1,4 @@
+
 import {
   Firestore,
   getFirestore,
@@ -61,6 +62,18 @@ exports.getUsers = async (params) => {
   //     console.log("No such document!");
   //   }
   return newArray;
+};
+exports.getUser = async (uid) => {
+  //const user = (doc(collection(db,"users")),`${uid}`)
+  const docRef = doc(db, "users", `${uid}`);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap) {
+    return  docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
 };
 
 exports.addContact = async (uid, userB) => {
