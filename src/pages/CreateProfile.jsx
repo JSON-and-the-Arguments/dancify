@@ -7,31 +7,19 @@ import {
   Button,
   Switch,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import Dropdown from '../components/Dropdown';
 import Slider from '@react-native-community/slider';
-import {
-  setDoc,
-  doc,
-  updateDoc,
-  getDocs,
-  collection,
-} from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { firebaseConfig } from '../../config';
+import { setDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
 import { pickImage, askForPermission, uploadImage } from '../../photoutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
+import { updateProfile } from 'firebase/auth';
+import axios from 'axios';
 
 const initialValues = {
   firstname: '',
@@ -66,8 +54,10 @@ const CreateProfile = () => {
   const [values, setValues] = useState(initialValues);
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [isVerified, setIsVerified] = useState(false)
 
   const navigation = useNavigation();
+  const { currentUser } = auth;
 
   useEffect(() => {
     (async () => {
@@ -92,18 +82,15 @@ const CreateProfile = () => {
   }
 
   async function handleUploadPicture() {
-    const user = values.firstname;
     let photoURL;
     if (selectedImage) {
       const { url } = await uploadImage(
         selectedImage,
-
-        `userPictures/${user}`,
+        `userPictures/${currentUser.uid}`,
         'profilePicture'
       );
       photoURL = url;
     }
-
     if (photoURL) {
       initialValues.image = photoURL;
     }
@@ -113,11 +100,35 @@ const CreateProfile = () => {
     setValues({ ...values, [val]: val2 });
   };
 
-  const patchUser = () => {
-    const updateProfile = doc(db, 'users', `${values.firstname}`);
-    handleUploadPicture();
-    setDoc(updateProfile, values);
-    navigation.navigate('Home');
+  function  getCoords(postcode) {
+    axios.get(`https://api.postcodes.io/postcodes/${postcode}`)
+   .then((res) => {
+     
+     handleInputChange('location', {
+         latitude: res.data.result.latitude,
+         longitude: res.data.result.longitude,
+     })
+     setIsVerified(true)
+     alert('Postcode is valid, press create button')
+   })
+  }
+
+  const patchUser = async () => {
+    const user = auth.currentUser;
+    const updateProf = doc(db, 'users', user.uid);
+    if (!isVerified) {
+      alert('You forgot to enter or validate your postcode')
+    }
+    else {
+      await Promise.all([
+        handleUploadPicture(),
+        updateProfile(user, values),
+        setDoc(updateProf, { ...values, uid: user.uid }),
+      ]).then(() => {
+        navigation.navigate('Home');
+      });
+    }
+    
   };
 
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);
@@ -132,7 +143,7 @@ const CreateProfile = () => {
   };
 
   return (
-    <View>
+    <>
       <Navbar />
       <ScrollView
         contentContainerStyle={{
@@ -195,6 +206,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
+        <Button title='Verify Postcode' onPress={()=> getCoords(values.postcode)}/>
         <Text>Dance Styles</Text>
         <Dropdown value={selectedItem} data={dance} onSelect={onSelect} />
 
@@ -242,7 +254,7 @@ const CreateProfile = () => {
           />
         </View>
       </ScrollView>
-    </View>
+    </>
   );
 };
 

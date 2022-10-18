@@ -54,10 +54,18 @@ const Navbar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('UsersList')}
+              onPress={() => navigation.navigate('MyLocation')}
             >
-              <Text className="text-xl text-white">Users</Text>
+              <Text className="text-xl text-white">Location</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              className="mb-4 bg-blue-600 px-4 rounded-lg"
+              onPress={() => navigation.navigate('Chats')}
+            >
+              <Text className="text-xl text-white">Chats</Text>
+            </TouchableOpacity>
+            
+      
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}

@@ -1,22 +1,12 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
-import { useState, useEffect } from "react";
-import { getUsers } from "../../queryutils";
-import UserCard from "../components/UserCard";
-import Search from "../components/Search";
-import { firebaseConfig } from "../../config";
-import Navbar from "../components/Navbar";
-import { useNavigation } from "@react-navigation/native";
-import SingleProfile from "./SingleProfile";
-import { nanoid } from "nanoid";
+
+import React from 'react';
+import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
+import { getUsers } from '../../queryutils';
+import UserCard from '../components/UserCard';
+import Search from '../components/Search';
+import Navbar from '../components/Navbar';
+import { useNavigation } from '@react-navigation/native';
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -30,9 +20,6 @@ const SearchPage = () => {
       setLoading(false);
     });
   }, [params]);
-  {
-    //console.log(navigation.getState().routes[0].params);
-  }
 
   if (loading) {
     return (
@@ -44,6 +31,7 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
+        
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return (
