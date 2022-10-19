@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
-  const [range, setRange] = useState(0);
+  // const [range, setRange] = useState(0);
   const [searchText, setSearchText] = useState(null);
   const navigation = useNavigation();
   return (
     <View>
-      <Text className="mx-8">Range: {range} miles</Text>
+      {/* <Text className="mx-8">Range: {range} miles</Text>
       <Slider
         step={5}
         onSlidingComplete={(value) => {
@@ -20,7 +20,7 @@ const Search = () => {
         maximumValue={30}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
-      />
+      /> */}
       <TextInput
         className="bg-blue-100 border-2 mx-8 h-10"
         placeholder="Find user"
