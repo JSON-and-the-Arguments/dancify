@@ -53,6 +53,10 @@ const SearchPage = () => {
   } else {
     return (
       <View>
+        
+        <KeyboardAvoidingView
+    behavior='position'
+    >
         <Navbar />
 
         <ScrollView horizontal={true}>
@@ -67,6 +71,7 @@ const SearchPage = () => {
     })}
         </ScrollView>
         <Search />
+        </KeyboardAvoidingView>
 
         <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"

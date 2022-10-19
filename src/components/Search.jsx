@@ -1,4 +1,4 @@
-import { View, TextInput, Text, Button, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, Button, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -7,28 +7,32 @@ const Search = () => {
   // const [range, setRange] = useState(0);
   const [searchText, setSearchText] = useState(null);
   const navigation = useNavigation();
+
   return (
-    <View className="bottom-10 bg-red-100 items-center border-4 border-red-500/10 m-5 rounded">
-      <Text className="mx-8">Range: {range} miles</Text>
+    <ScrollView>
+    <View className="items-center">
+      <Text className="mt-2 text-center text-sm">Select the desired range to find other dancers</Text>
+      <Text className="mx-8 text-center mt-3 mb-3 text-base">{range} miles</Text>
       <Slider
         step={5}
         onSlidingComplete={(value) => {
           setRange(value);
         }}
-        style={{ width: 320, height: 40, marginLeft: 10 }}
+        style={{ width: 320, height: 40, marginLeft: 32, marginBottom: 32 }}
         minimumValue={0}
         maximumValue={30}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
       /> */}
       <TextInput
-        className="shadow-xl bg-white border-4 border-red-500/10 mx-8 h-10 w-40 rounded"
-        placeholder="Find user"
+        className="bg-blue-100 border-2 mx-8 h-10 w-4/5 rounded pl-2 mb-5"
+        placeholder="Search for a dancer"
         keyboardType="default"
         onChangeText={setSearchText}
       />
-      <TouchableOpacity
-        className="bg-rose-300 rounded-full py-2 "
+      <Button
+        title="Search"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
         onPress={() => {
           navigation.navigate("Home", {
             user: searchText,
@@ -56,6 +60,7 @@ const Search = () => {
         <Text className="text-l font-bold bottom-0 ">Location</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 

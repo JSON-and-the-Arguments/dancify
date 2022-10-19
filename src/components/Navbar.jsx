@@ -11,14 +11,19 @@ import {
 import React, { useState } from 'react';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons'; 
+
+
 
 const Navbar = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+
   return (
     <View className="flex-row justify-between pt-12 px-6 pb-4 bg-red-500">
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
+
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <MaterialCommunityIcons name="dance-ballroom" size={40} color="white" />
       </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}> */}
       <Image source={require('../../Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
@@ -26,6 +31,9 @@ const Navbar = () => {
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>
+
+      
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -36,34 +44,34 @@ const Navbar = () => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View className="bg-white" style={styles.modalView}>
             <TouchableOpacity
-              className=" mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate("CreateProfile")}
+              className=" mb-6 bg-blue-600 rounded-lg px-8 py-2"
+              onPress={() => navigation.navigate('CreateProfile')}
             >
               <Text className="text-xl text-white">Create profile</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate("SignUp")}
+              className="mb-6 bg-blue-600 rounded-lg px-8 py-2"
+              onPress={() => navigation.navigate('SignUp')}
             >
               <Text className="text-xl text-white">SignUp</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate("Home")}
+              className="mb-6 bg-blue-600 rounded-lg px-8 py-2"
+              onPress={() => navigation.navigate('Home')}
             >
               <Text className="text-xl text-white">Home</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate("MyLocation")}
+              className="mb-6 bg-blue-600 rounded-lg px-8 py-2"
+              onPress={() => navigation.navigate('MyLocation')}
             >
               <Text className="text-xl text-white">Location</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate("Chats")}
+              className="mb-6 bg-blue-600 rounded-lg px-8 py-2"
+              onPress={() => navigation.navigate('Chats')}
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
@@ -72,11 +80,12 @@ const Navbar = () => {
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <AntDesign className="bg-white rounded-none" name="closecircleo" size={24} color="black" />
             </Pressable>
           </View>
         </View>
       </Modal>
+
     </View>
   );
 };
@@ -90,7 +99,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -103,16 +112,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
+  
   buttonOpen: {
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: '#ffffff',
+    marginTop: 30,
   },
   textStyle: {
     color: "white",

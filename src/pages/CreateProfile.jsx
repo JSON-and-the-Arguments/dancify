@@ -155,14 +155,16 @@ const CreateProfile = () => {
         <TouchableOpacity
           onPress={handleProfilePicture}
           style={{
-            marginTop: 30,
+            marginTop: 15,
+            marginBottom: 20,
             borderRadius: 120,
             width: 120,
             height: 120,
-            backgroundColor: 'grey',
+            backgroundColor: '#ffffff',
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          className=""
         >
           {!selectedImage ? (
             <MaterialCommunityIcons
@@ -178,42 +180,47 @@ const CreateProfile = () => {
           )}
         </TouchableOpacity>
 
-        <Text>First Name</Text>
+        <Text className="text-base">First Name</Text>
         <TextInput
           value={values.firstname}
           onChangeText={(value) => handleInputChange('firstname', value)}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="firstname"
+          className="mt-2 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+          placeholder="John"
           required
           keyboardType="default"
         />
-        <Text>Last Name</Text>
+        <Text className="text-base">Last Name</Text>
         <TextInput
           value={values.lastname}
           onChangeText={(value) => handleInputChange('lastname', value)}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="lastname"
+          className="mt-2 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+          placeholder="Smith"
           required
           keyboardType="default"
         />
 
-        <Text>Post Code</Text>
+        <Text className="text-base">Post Code</Text>
         <TextInput
           value={values.postcode}
           onChangeText={(value) => handleInputChange('postcode', value)}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="postcode"
+          className="mt-2 mb-3 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+          placeholder="M1 7ED"
           required
           keyboardType="default"
         />
-        <Button title='Verify Postcode' onPress={()=> getCoords(values.postcode)}/>
-        <Text>Dance Styles</Text>
+        <Button
+        title='Verify Postcode'
+        onPress={()=> getCoords(values.postcode)}
+        />
+      
+
+        <Text className="mt-5 mb-2 text-base">Dance Styles</Text>
         <Dropdown value={selectedItem} data={dance} onSelect={onSelect} />
 
-        <Text>Role</Text>
+        <Text className="mt-5 mb-2 text-base">Role</Text>
         <Dropdown value={selectedRole} data={role} onSelect={onRoleSelect} />
 
-        <Text>Range: {range} miles</Text>
+        <Text className="mt-5 mb-2 text-base">Range: {range} miles</Text>
         <Slider
           step={5}
           value={range}
@@ -227,7 +234,7 @@ const CreateProfile = () => {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
         />
-        <Text>{isAvailable ? 'Available' : 'Not Available'}</Text>
+        <Text className="mt-5 mb-2 text-base">{isAvailable ? 'Available' : 'Not Available'}</Text>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
           thumbColor={isAvailable ? '#f5dd4b' : '#f4f3f4'}
@@ -238,11 +245,11 @@ const CreateProfile = () => {
             handleInputChange('available', value);
           }}
         />
-        <Text>Tell us about Yourself</Text>
+        <Text className="mt-5 mb-2 text-base">Tell us about Yourself</Text>
         <TextInput
           value={values.about}
           onChangeText={(value) => handleInputChange('about', value)}
-          className="mt-1  block w-80 px-3 py-2 h-20 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+          className="mt-1  block w-80 px-3 py-2 h-20 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 text-clip overflow-hidden"
           placeholder="about"
           keyboardType="default"
         />

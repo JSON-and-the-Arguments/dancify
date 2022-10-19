@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
+import { Platform, Text, View, StyleSheet, Dimensions, ScrollView, Button } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import {getUsers,  getUsersByQuery} from '../../queryutils'
@@ -10,6 +10,7 @@ import Slider from '@react-native-community/slider';
 import Dropdown from './Dropdown'
 
 import * as Location from 'expo-location';
+import Navbar from './Navbar';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
 
@@ -137,6 +138,8 @@ export default function MyLocation() {
 
   else {
     return (
+      <ScrollView>
+      <Navbar />
       <View style={styles}>
          <MapView style={styles.map}  initialRegion={mapRegion}>
            
@@ -167,6 +170,7 @@ export default function MyLocation() {
             />
         </MapView> 
         <View className='mt-10 items-center'>
+          <Text>Select the desired range to find a dancer</Text>
         <Slider
 
           step={0.5}
@@ -178,27 +182,29 @@ export default function MyLocation() {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           />
-
-
+          <Text className="mx-8 text-center mt-2 text-base">{range} miles</Text>
         </View>
-
-        <View className='mt-20 items-center'>
+        
+        <Text className='mt-6 text-center'>Choose a dance style</Text>
+        <View className='mt-2 items-center'>
           <Dropdown
           value={selectedDance}
           data={dance}
-          onSelect={onDanceSelect}/>
+          onSelect={onDanceSelect}
+          className="bg-black"
+          />
+          
         </View>
         
-        
-        
-        
-        <View className='mt-20 items-center'>
+        <Text className='mt-10 text-center'>Choose your partner role</Text>
+        <View className='mt-2 mb-20 items-center'>
           <Dropdown
           value={selectedRole}
           data={role}
           onSelect={onRoleSelect}/>
         </View>
       </View>
+      </ScrollView>
     );
   }
 
