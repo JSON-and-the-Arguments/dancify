@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 const Search = () => {
-  const [range, setRange] = useState(0);
+  // const [range, setRange] = useState(0);
   const [searchText, setSearchText] = useState(null);
   const navigation = useNavigation();
   return (
@@ -20,7 +20,7 @@ const Search = () => {
         maximumValue={30}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
-      />
+      /> */}
       <TextInput
         className="shadow-xl bg-white border-4 border-red-500/10 mx-8 h-10 w-40 rounded"
         placeholder="Find user"
