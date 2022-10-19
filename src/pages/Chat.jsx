@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useState } from 'react';
-
+import {getUser} from '../../queryutils'
 const randomId = nanoid();
 
 const Chat = () => {
@@ -33,6 +33,9 @@ const Chat = () => {
   // const navigation = useNavigation();
 
   useEffect(() => {
+    getUser(userB).then((userBinfo) => {
+
+    
     (async () => {
       if (!room) {
         const currentUserData = {
@@ -40,6 +43,7 @@ const Chat = () => {
         };
         const userBData = {
           id: userB,
+          firstname: userBinfo.firstname,
         };
         const roomData = {
           users: [currentUserData, userBData],
@@ -52,6 +56,7 @@ const Chat = () => {
         }
       }
     })();
+    })
   }, []);
 
 

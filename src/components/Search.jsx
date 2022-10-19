@@ -1,10 +1,10 @@
-import { View, TextInput, Text, Button, ScrollView, StyleSheet } from 'react-native';
-import Slider from '@react-native-community/slider';
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { View, TextInput, Text, Button, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import Slider from "@react-native-community/slider";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Search = () => {
-  const [range, setRange] = useState(0);
+  // const [range, setRange] = useState(0);
   const [searchText, setSearchText] = useState(null);
   const navigation = useNavigation();
 
@@ -23,7 +23,7 @@ const Search = () => {
         maximumValue={30}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
-      />
+      /> */}
       <TextInput
         className="bg-blue-100 border-2 mx-8 h-10 w-4/5 rounded pl-2 mb-5"
         placeholder="Search for a dancer"
@@ -34,11 +34,31 @@ const Search = () => {
         title="Search"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
         onPress={() => {
-          navigation.navigate('Home', {
+          navigation.navigate("Home", {
             user: searchText,
           });
         }}
-      />
+      >
+        <Text className="text-l">Search</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        className="bg-rose-400 rounded-lg py-2"
+        onPress={() => {
+          navigation.navigate("Home", {
+            user: searchText,
+          });
+        }}
+      >
+        <Text className="text-l font-bold bottom-0 ">All users</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        className="bg-rose-500 rounded-lg py-2 "
+        onPress={() => navigation.navigate("MyLocation")}
+      >
+        <Text className="text-l font-bold bottom-0 ">Location</Text>
+      </TouchableOpacity>
     </View>
     </ScrollView>
   );

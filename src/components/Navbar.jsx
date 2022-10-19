@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   StyleSheet,
+  Image
 } from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
@@ -24,7 +25,9 @@ const Navbar = () => {
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <MaterialCommunityIcons name="dance-ballroom" size={40} color="white" />
       </TouchableOpacity>
-      <Text className="text-2xl">Dancify</Text>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}> */}
+      <Image source={require('../../Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
+      {/* </TouchableOpacity> */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>
@@ -36,7 +39,7 @@ const Navbar = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -72,8 +75,7 @@ const Navbar = () => {
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
-            
-      
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
@@ -91,8 +93,8 @@ const Navbar = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
@@ -100,8 +102,8 @@ const styles = StyleSheet.create({
     
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -112,20 +114,20 @@ const styles = StyleSheet.create({
   },
   
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
     backgroundColor: '#ffffff',
     marginTop: 30,
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 

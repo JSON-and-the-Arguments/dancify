@@ -1,3 +1,4 @@
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
@@ -12,6 +13,7 @@ import ContextWrapper from './context/ContextWrapper';
 import Chat from './src/pages/Chat';
 import Location from './src/components/Location'
 import WelcomePage from './src/pages/WelcomePage';
+import SingleProfile from './src/pages/SingleProfile';
 
 const Stack = createNativeStackNavigator()
 
@@ -47,7 +49,7 @@ export default function App() {
           <Stack.Screen name="Chats" component={Chats} />
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="MyLocation" component={Location} />
-          
+          <Stack.Screen name="SingleProfile" component={SingleProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </ContextWrapper>
