@@ -30,23 +30,22 @@ const SignUp = () => {
   return (
     <View>
       <Navbar />
-      <View className="  justify-center items-center mt-5  space-y-5">
-        
-        <Text>Email</Text>
+      <View className="justify-center items-center mt-5  space-y-5 top-10">
+        <Text className="text-lg">Email</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="email"
+          placeholder="e.g. johnsmith@gmail.com"
           required
           keyboardType="default"
         />
-        <Text>Password</Text>
+        <Text className="text-lg">Password</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="password"
+          className="mt-1 mb-10 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+          placeholder="Tip: Choose a strong password"
           required
           keyboardType="default"
         />
@@ -63,10 +62,10 @@ const SignUp = () => {
             mode === 'signUp' ? setMode('logIn') : setMode('signUp')
           }
         >
-          <Text>
+          <Text className="text-base mt-5">
             {mode === 'signUp'
-              ? 'Already have an account? Log in'
-              : "Don't have an account? Sign Up"}
+              ? `Already have an account? Log in`
+              : `Don't have an account? Sign Up`}
           </Text>
         </TouchableOpacity>
       </View>

@@ -11,9 +11,9 @@ import { auth } from './firebase';
 import ContextWrapper from './context/ContextWrapper';
 import Chat from './src/pages/Chat';
 import Location from './src/components/Location'
+import WelcomePage from './src/pages/WelcomePage';
 
-
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   const [currentUser, setCurrentUSer] = useState(null);
@@ -32,24 +32,25 @@ export default function App() {
     return <Text>Loading...</Text>;
   }
 
+
+
+
   return (
     <ContextWrapper>
       <NavigationContainer>
-        
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="WelcomePage" component={WelcomePage} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="CreateProfile" component={CreateProfile} />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            currentUser={currentUser}
+          <Stack.Screen name="Home" component={Home} currentUser={currentUser}
           ></Stack.Screen>
           <Stack.Screen name="Chats" component={Chats} />
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="MyLocation" component={Location} />
+          
         </Stack.Navigator>
-        
       </NavigationContainer>
     </ContextWrapper>
+
   );
 }

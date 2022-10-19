@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ScrollView, StyleSheet, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getUsers } from '../../queryutils';
 import UserCard from '../components/UserCard';
@@ -30,14 +30,18 @@ const SearchPage = () => {
   } else {
     return (
       <View>
-        <Navbar />
         
+        <KeyboardAvoidingView
+    behavior='position'
+    >
+        <Navbar />
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return <UserCard key={index} user={user} />;
           })}
         </ScrollView>
         <Search />
+        </KeyboardAvoidingView>
       </View>
     );
   }

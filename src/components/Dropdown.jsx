@@ -32,9 +32,10 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
             return (
               <TouchableOpacity
                 key={index}
+                className="align-middle"
                 onPress={() => onSelectedItem(item)}
               >
-                <Text> {item.name}</Text>
+                <Text className="text-base h-10"> {item.name}</Text>
               </TouchableOpacity>
             );
           })}
