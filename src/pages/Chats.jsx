@@ -9,7 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 
 const Chats = () => {
   const { currentUser } = auth;
-  const { rooms, setRooms, setUnfilteredRooms } = useContext(GlobalContext);
+  const { rooms, setRooms, setUnfilteredRooms, unfilteredRooms } =
+    useContext(GlobalContext);
   const [userB, setUserB] = useState(null);
 
   const chatsQuery = query(
@@ -25,16 +26,15 @@ const Chats = () => {
         ...doc.data(),
         id: doc.id,
         userB: doc.data().users.find((user) => {
-          
           return user.id !== currentUser.uid;
         }),
       }));
       setUnfilteredRooms(parsedChats);
-      setRooms(parsedChats);
+      setRooms(parsedChats.filter((doc) => doc.lastMessage));
     });
     return () => logout();
   }, []);
-
+  console.log(rooms, unfilteredRooms);
   return (
     <View>
       <Navbar />
@@ -59,7 +59,6 @@ const Chats = () => {
           </View>
         );
       })}
-   
     </View>
   );
 };

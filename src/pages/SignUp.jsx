@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import { signIn, signUp } from '../../firebase';
-import { getUsers } from '../../queryutils';
+// import { getUsers } from '../../queryutils';
 
-getUsers();
+// getUsers();
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -31,7 +31,6 @@ const SignUp = () => {
     <View>
       <Navbar />
       <View className="  justify-center items-center mt-5  space-y-5">
-        
         <Text>Email</Text>
         <TextInput
           value={email}

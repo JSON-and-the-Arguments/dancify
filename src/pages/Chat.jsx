@@ -4,6 +4,7 @@ import 'react-native-get-random-values';
 import { nanoid } from 'nanoid';
 import { Text, View } from 'react-native';
 import { auth, db } from '../../firebase';
+import { Ionicons } from '@expo/vector-icons';
 import {
   addDoc,
   collection,
@@ -14,8 +15,9 @@ import {
 } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { Actions, GiftedChat } from 'react-native-gifted-chat';
 import { useState } from 'react';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const randomId = nanoid();
 
@@ -30,7 +32,6 @@ const Chat = () => {
   const roomId = room ? room.id : randomId;
   const roomRef = doc(db, 'rooms', roomId);
   const roomMessagesRef = collection(db, 'rooms', roomId, 'messages');
-  // const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -54,8 +55,6 @@ const Chat = () => {
     })();
   }, []);
 
-
-
   useEffect(() => {
     const logout = onSnapshot(roomMessagesRef, (querySnapshot) => {
       const messagesFirestore = querySnapshot
@@ -64,7 +63,8 @@ const Chat = () => {
         .map(({ doc }) => {
           const message = doc.data();
           return { ...message, createdAt: message.createdAt.toDate() };
-        });
+        })
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
       appendMessages(messagesFirestore);
     });
     return () => logout();
@@ -80,6 +80,7 @@ const Chat = () => {
   );
 
   const onSend = async (messages = []) => {
+    console.log('running');
     const writes = messages.map((m) => addDoc(roomMessagesRef, m));
     const lastMessage = messages[messages.length - 1];
     writes.push(updateDoc(roomRef, { lastMessage }));

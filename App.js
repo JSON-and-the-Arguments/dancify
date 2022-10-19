@@ -1,4 +1,3 @@
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
@@ -11,21 +10,20 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import ContextWrapper from './context/ContextWrapper';
 import Chat from './src/pages/Chat';
-import Location from './src/components/Location'
+import Location from './src/components/Location';
 import SingleProfile from './src/pages/SingleProfile';
-
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [currentUser, setCurrentUSer] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const logout = onAuthStateChanged(auth, (user) => {
       setLoading(false);
       if (user) {
-        setCurrentUSer(user);
+        setCurrentUser(user);
       }
     });
     return () => logout();
@@ -37,7 +35,6 @@ export default function App() {
   return (
     <ContextWrapper>
       <NavigationContainer>
-        
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="CreateProfile" component={CreateProfile} />
@@ -51,7 +48,6 @@ export default function App() {
           <Stack.Screen name="MyLocation" component={Location} />
           <Stack.Screen name="SingleProfile" component={SingleProfile} />
         </Stack.Navigator>
-        
       </NavigationContainer>
     </ContextWrapper>
   );

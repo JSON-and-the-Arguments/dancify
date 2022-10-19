@@ -1,4 +1,3 @@
-
 import {
   Firestore,
   getFirestore,
@@ -16,6 +15,9 @@ import {
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
 import { decode, encode } from 'base-64';
+import { auth } from './firebase';
+import { useContext } from 'react';
+import GlobalContext from './context/Context';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -32,6 +34,7 @@ const db = initializeFirestore(app, {
 });
 
 exports.getUsers = async (params) => {
+  const { currentUser } = auth;
   let paramToQ = params == undefined ? '' : params.user;
   const q = query(collection(db, 'users'));
   const querySnapshot = await getDocs(q);
@@ -39,12 +42,14 @@ exports.getUsers = async (params) => {
 
   if (paramToQ === '' || paramToQ === null) {
     querySnapshot.forEach((doc) => {
-      const { email, password, username } = doc.data();
-      newArray.push(doc.data());
+      if (doc.data().uid !== currentUser.uid) {
+        newArray.push(doc.data());
+      }
+      // const { email, password, username } = doc.data();
     });
   } else {
     querySnapshot.forEach((doc) => {
-      const { email, password, username } = doc.data();
+      // const { email, password, username } = doc.data();
       if (doc.id === paramToQ) {
         newArray.push(doc.data());
       }
@@ -65,19 +70,18 @@ exports.getUsers = async (params) => {
 };
 exports.getUser = async (uid) => {
   //const user = (doc(collection(db,"users")),`${uid}`)
-  const docRef = doc(db, "users", `${uid}`);
+  const docRef = doc(db, 'users', `${uid}`);
   const docSnap = await getDoc(docRef);
 
   if (docSnap) {
-    return  docSnap.data();
+    return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
-    console.log("No such document!");
+    console.log('No such document!');
   }
 };
 
 exports.addContact = async (uid, userB) => {
-  
   return await setDoc(
     doc(
       collection(doc(collection(db, 'users'), `${uid}`), 'contacts'),
@@ -88,21 +92,25 @@ exports.addContact = async (uid, userB) => {
 };
 
 exports.getUsersByQuery = async (item) => {
-  
-  
-  let param1 = item.dancestyles == undefined ? '' : item.dancestyles
-  let param2 = item.role == undefined ? '' : item.role
-  const usersCollection = collection(db, 'users')
-  const compoundQuery = query(usersCollection, where('dancestyles', '==', item.dancestyles), where('role', '==', item.role));
-  const danceQuery = query(usersCollection, where('dancestyles', '==', item.dancestyles))
-  const roleQuery = query(usersCollection, where('role', '==', item.role))
-  const newArray = []
-  
+  let param1 = item.dancestyles == undefined ? '' : item.dancestyles;
+  let param2 = item.role == undefined ? '' : item.role;
+  const usersCollection = collection(db, 'users');
+  const compoundQuery = query(
+    usersCollection,
+    where('dancestyles', '==', item.dancestyles),
+    where('role', '==', item.role)
+  );
+  const danceQuery = query(
+    usersCollection,
+    where('dancestyles', '==', item.dancestyles)
+  );
+  const roleQuery = query(usersCollection, where('role', '==', item.role));
+  const newArray = [];
+
   if (param2 === '' || param2 === null) {
     const querySnapshot = await getDocs(danceQuery);
     querySnapshot.forEach((doc) => {
       newArray.push(doc.data());
-      
     });
   }
 
@@ -110,18 +118,20 @@ exports.getUsersByQuery = async (item) => {
     const querySnapshot = await getDocs(roleQuery);
     querySnapshot.forEach((doc) => {
       newArray.push(doc.data());
-      
     });
-  }
-
-  else {
+  } else {
     const querySnapshot = await getDocs(compoundQuery);
     querySnapshot.forEach((doc) => {
       newArray.push(doc.data());
-      
     });
   }
-  
-  return newArray
-  
+
+  return newArray;
+};
+
+exports.getRoom = async (rooms, rooms2) => {
+  console.log(rooms, rooms2);
+  // rooms.filter(()=>{
+  //   return
+  // })
 };

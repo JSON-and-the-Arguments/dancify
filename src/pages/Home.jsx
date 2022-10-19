@@ -1,12 +1,18 @@
-
 import React from 'react';
-import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import { useState, useEffect } from 'react';
 import { getUsers } from '../../queryutils';
 import UserCard from '../components/UserCard';
 import Search from '../components/Search';
 import Navbar from '../components/Navbar';
 import { useNavigation } from '@react-navigation/native';
+import { nanoid } from 'nanoid';
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -31,13 +37,13 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
-        
+
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return (
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("SingleProfile", {
+                  navigation.navigate('SingleProfile', {
                     user: user.uid,
                   })
                 }
@@ -62,11 +68,11 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     padding: 10,
   },
 });

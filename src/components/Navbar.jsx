@@ -24,13 +24,15 @@ const Navbar = () => {
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}
+        onDismiss={() => setModalVisible(!modalVisible)}
+        presentationStyle={'overFullScreen'}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -64,8 +66,7 @@ const Navbar = () => {
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
-            
-      
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
