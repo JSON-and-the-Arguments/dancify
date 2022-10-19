@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
@@ -18,12 +18,18 @@ const SignUp = () => {
     if (mode === 'signUp') {
       await signUp(email, password).then(() => {
         navigation.navigate('CreateProfile');
-      });
+      })
+      .catch((err) => {
+        Alert.alert('This account already exist', 'Login to start using the app')
+      })
     }
     if (mode === 'logIn') {
       await signIn(email, password).then(() => {
         navigation.navigate('Home');
-      });
+      })
+      .catch((err) => {
+        Alert.alert("You don't have an account", "Create one first")
+      })
     }
   };
 
