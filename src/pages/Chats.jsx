@@ -36,19 +36,16 @@ const Chats = () => {
           return user.id !== currentUser.uid;
         }),
         userBfirstname: doc.data().users.find((user) => {
-          console.log(user)
           return user.firstname !== undefined
         }),
       }));
-      //console.log(userB)
       setUnfilteredRooms(parsedChats);
       setRooms(parsedChats);
     });
     return () => logout();
   }, []);
 
-  //console.log(rooms)
-
+  
   return (
     <View>
       <Navbar />

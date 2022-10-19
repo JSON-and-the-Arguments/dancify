@@ -93,8 +93,7 @@ const CreateProfile = () => {
       alert('Postcode is valid, press create button')
     })
   }
-  //console.log(values)
-  
+    
 
   if (!permissionStatus) {
     return <Text>Loading</Text>;

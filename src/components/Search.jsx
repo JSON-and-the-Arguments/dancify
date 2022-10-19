@@ -12,8 +12,7 @@ const Search = () => {
     <ScrollView>
     <View className="items-center">
       <Text className="mt-2 text-center text-sm">Select the desired range to find other dancers</Text>
-      <Text className="mx-8 text-center mt-3 mb-3 text-base">{range} miles</Text>
-      <Slider
+      {/* <Slider
         step={5}
         onSlidingComplete={(value) => {
           setRange(value);
@@ -30,10 +29,9 @@ const Search = () => {
         keyboardType="default"
         onChangeText={setSearchText}
       />
-      <Button
-        title="Search"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
-        onPress={() => {
+      <TouchableOpacity
+      className="bg-rose-400 rounded-lg py-2"
+           onPress={() => {
           navigation.navigate("Home", {
             user: searchText,
           });

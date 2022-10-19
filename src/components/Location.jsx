@@ -125,8 +125,6 @@ export default function MyLocation() {
            
          
     }
-
-     console.log(selectedDance)
   
   if (liveLoading) {
     return (

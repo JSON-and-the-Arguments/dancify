@@ -16,6 +16,8 @@ import {
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
 import { decode, encode } from 'base-64';
+import { updateCurrentUser } from 'firebase/auth';
+import { auth } from './firebase';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -32,7 +34,7 @@ const db = initializeFirestore(app, {
 });
 
 exports.getUsers = async (params) => {
-  console.log(params);
+  const {currentUser} = auth;
   let paramToQ = params == undefined ? "" : params.user;
   const q = query(collection(db, "users"));
   const querySnapshot = await getDocs(q);
@@ -40,13 +42,14 @@ exports.getUsers = async (params) => {
 
   if (paramToQ === "" || paramToQ === null) {
     querySnapshot.forEach((doc) => {
-      newArray.push(doc.data());
+      if (doc.data().uid !== currentUser.uid) {
+        newArray.push(doc.data());
+      }
       
     });
   } else {
     querySnapshot.forEach((doc) => {
-      console.log(paramToQ);
-      if (doc.data().firstname == paramToQ) {
+      if (doc.id == paramToQ) {
         newArray.push(doc.data());
       }
     });
@@ -55,41 +58,15 @@ exports.getUsers = async (params) => {
   return newArray;
 };
 exports.getUser = async (uid) => {
-  //const user = (doc(collection(db,"users")),`${uid}`)
+  
   const docRef = doc(db, "users", `${uid}`);
   const docSnap = await getDoc(docRef);
-
-  if (docSnap) {
+console.log( docSnap.data(), '<<< docSnap');
+  // if (docSnap.data().uid == uid) {
     return  docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
+  // }
 };
-exports.getUser = async (uid) => {
-  //const user = (doc(collection(db,"users")),`${uid}`)
-  const docRef = doc(db, "users", `${uid}`);
-  const docSnap = await getDoc(docRef);
 
-  if (docSnap) {
-    return docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
-exports.getUser = async (uid) => {
-  //const user = (doc(collection(db,"users")),`${uid}`)
-  const docRef = doc(db, "users", `${uid}`);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap) {
-    return  docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
 
 exports.addContact = async (uid, userB) => {
   return await setDoc(
@@ -139,28 +116,4 @@ exports.getUsersByQuery = async (item) => {
   return newArray;
 };
 
-exports.getUser = async (uid) => {
-  //const user = (doc(collection(db,"users")),`${uid}`)
-  const docRef = doc(db, "users", `${uid}`);
-  const docSnap = await getDoc(docRef);
 
-  if (docSnap) {
-    return  docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-}
-
-exports.getUser = async (uid) => {
-  //const user = (doc(collection(db,"users")),`${uid}`)
-  const docRef = doc(db, "users", `${uid}`);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap) {
-    return  docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-}

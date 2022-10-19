@@ -1,118 +1,91 @@
-import { View, Text, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import Navbar from '../components/Navbar';
-import { signIn, signUp } from '../../firebase';
-import { getUsers } from '../../queryutils';
-
-getUsers();
+import {
+   View,
+   Text,
+   TextInput,
+   Button,
+   TouchableOpacity,
+   Alert,
+} from "react-native";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import Navbar from "../components/Navbar";
+import { signIn, signUp } from "../../firebase";
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [mode, setMode] = useState('signUp');
-  const [validEmail, setValidEmail] = useState(false)
-  const [validPass, setValidPass] = useState(false)
-  const [emailStyle, setEmailStyle] = useState({})
-  const [passStyle, setPassStyle] = useState({})
+   const [username, setUsername] = useState("");
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [mode, setMode] = useState("signUp");
 
-  const navigation = useNavigation();
-  const addUser = async () => {
-
-    const validateEmail = (email) => {
-        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  
-        if (emailRegex.test(email) === true) {
-          setValidEmail(true)
-          setEmailStyle({})
-        } else {
-          alert("Invalid email.")
-          setEmailStyle({backgroundColor: 'pink'})
-        }
-    }
-    validateEmail(email)
-    
-    const validatePass = (password) => {
-      const passRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
-
-      if (passRegex.test(password) === true) {
-        setValidPass(true)
-        setPassStyle({})
-      } else {
-        alert("Invalid password. Must contain at least one lowercase letter, one uppercase letter, one digit, one special character and is at least eight characters long")
-        setPassStyle({backgroundColor: 'pink'})
+   const navigation = useNavigation();
+   const addUser = async () => {
+      if (mode === "signUp") {
+         await signUp(email, password)
+            .then(() => {
+               navigation.navigate("CreateProfile");
+            })
+            .catch((err) => {
+               Alert.alert(
+                  "This account already exist",
+                  "Login to start using the app"
+               );
+            });
       }
-  }
-  validatePass(password)
+      if (mode === "logIn") {
+         await signIn(email, password)
+            .then(() => {
+               navigation.navigate("Home");
+            })
+            .catch((err) => {
+               Alert.alert("You don't have an account", "Create one first");
+            });
+      }
+   };
 
-    if (mode === 'signUp' && validEmail === true && validPass === true) {
-      await signUp(email, password).then(() => {
-        navigation.navigate('CreateProfile');
-      })
-      .catch((err) => {
-        Alert.alert('This account already exist', 'Login to start using the app')
-      })
-    }
-    if (mode === 'logIn') {
-      await signIn(email, password).then(() => {
-        navigation.navigate('Home');
-      })
-      .catch((err) => {
-        Alert.alert("You don't have an account", "Create one first")
-      })
-    }
-  };
-
-  return (
-    <View>
-      <Navbar />
-      <View className="justify-center items-center mt-5  space-y-5 top-10">
-        <Text className="text-lg">Email</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="e.g. johnsmith@gmail.com"
-          required
-          keyboardType="default"
-          style={emailStyle}
-        />
-        <Text className="text-lg">Password</Text>
-        <TextInput
-          value={password}
-          onChangeText={setPassword}
-          className="mt-1 mb-10 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="Tip: Choose a strong password"
-          required
-          keyboardType="default"
-          style={passStyle}
-        />
-        <View>
-          <Button
-            title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
-            disabled={!email || !password}
-            onPress={addUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
-          />
-        </View>
-        <TouchableOpacity
-          onPress={() =>
-            mode === 'signUp' ? setMode('logIn') : setMode('signUp')
-          }
-        >
-          <Text className="text-base mt-5">
-            {mode === 'signUp'
-              ? `Already have an account? Log in`
-              : `Don't have an account? Sign Up`}
-          </Text>
-        </TouchableOpacity>
+   return (
+      <View>
+         <Navbar />
+         <View className="  justify-center items-center mt-5  space-y-5">
+            <Text>Email</Text>
+            <TextInput
+               value={email}
+               onChangeText={setEmail}
+               className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+               placeholder="email"
+               required
+               keyboardType="default"
+            />
+            <Text>Password</Text>
+            <TextInput
+               value={password}
+               onChangeText={setPassword}
+               className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
+               placeholder="password"
+               required
+               keyboardType="default"
+            />
+            <View>
+               <Button
+                  title={mode === "signUp" ? "Sign Up" : "Log in"}
+                  disabled={!email || !password}
+                  onPress={addUser}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
+               />
+            </View>
+            <TouchableOpacity
+               onPress={() =>
+                  mode === "signUp" ? setMode("logIn") : setMode("signUp")
+               }
+            >
+               <Text>
+                  {mode === "signUp"
+                     ? "Already have an account? Log in"
+                     : "Don't have an account? Sign Up"}
+               </Text>
+            </TouchableOpacity>
+         </View>
       </View>
-    </View>
-  );
-
-  
+   );
 };
-
 
 export default SignUp;
