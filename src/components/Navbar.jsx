@@ -6,11 +6,11 @@ import {
   Pressable,
   Alert,
   StyleSheet,
-  Image,
-} from "react-native";
-import React, { useState } from "react";
-import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+  Image
+} from 'react-native';
+import React, { useState } from 'react';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Navbar = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,12 +20,9 @@ const Navbar = () => {
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
       </TouchableOpacity>
-
-      <Image
-        source={require("/home/zakkiassi/northcoders2/project/dancify/assets/Dancify.png")}
-        style={{ flex: 1, resizeMode: "contain", height: 30 }}
-      />
-
+      {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}> */}
+      <Image source={require('../../Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
+      {/* </TouchableOpacity> */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>

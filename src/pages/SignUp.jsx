@@ -12,10 +12,41 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState('signUp');
+  const [validEmail, setValidEmail] = useState(false)
+  const [validPass, setValidPass] = useState(false)
+  const [emailStyle, setEmailStyle] = useState({})
+  const [passStyle, setPassStyle] = useState({})
 
   const navigation = useNavigation();
   const addUser = async () => {
-    if (mode === 'signUp') {
+
+    const validateEmail = (email) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  
+        if (emailRegex.test(email) === true) {
+          setValidEmail(true)
+          setEmailStyle({})
+        } else {
+          alert("Invalid email.")
+          setEmailStyle({backgroundColor: 'pink'})
+        }
+    }
+    validateEmail(email)
+    
+    const validatePass = (password) => {
+      const passRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
+
+      if (passRegex.test(password) === true) {
+        setValidPass(true)
+        setPassStyle({})
+      } else {
+        alert("Invalid password. Must contain at least one lowercase letter, one uppercase letter, one digit, one special character and is at least eight characters long")
+        setPassStyle({backgroundColor: 'pink'})
+      }
+  }
+  validatePass(password)
+
+    if (mode === 'signUp' && validEmail === true && validPass === true) {
       await signUp(email, password).then(() => {
         navigation.navigate('CreateProfile');
       })
@@ -46,6 +77,7 @@ const SignUp = () => {
           placeholder="email"
           required
           keyboardType="default"
+          style={emailStyle}
         />
         <Text>Password</Text>
         <TextInput
@@ -55,6 +87,7 @@ const SignUp = () => {
           placeholder="password"
           required
           keyboardType="default"
+          style={passStyle}
         />
         <View>
           <Button
@@ -78,6 +111,9 @@ const SignUp = () => {
       </View>
     </View>
   );
+
+  
 };
+
 
 export default SignUp;
