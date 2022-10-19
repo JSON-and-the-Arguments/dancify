@@ -1,18 +1,24 @@
-
-import React from 'react';
-import { View, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
-import { useState, useEffect } from 'react';
-import { getUsers } from '../../queryutils';
-import UserCard from '../components/UserCard';
-import Search from '../components/Search';
-import Navbar from '../components/Navbar';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useEffect } from "react";
+import { getUsers } from "../../queryutils";
+import UserCard from "../components/UserCard";
+import Search from "../components/Search";
+import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
+import { nanoid } from "nanoid";
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const params = navigation.getState().routes[0].params;
+  const params = navigation.getState().routes[1].params;
   useEffect(() => {
     setLoading(true);
     getUsers(params).then((response) => {
@@ -31,7 +37,7 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
-        
+
         <ScrollView horizontal={true}>
           {users?.map((user, index) => {
             return (
