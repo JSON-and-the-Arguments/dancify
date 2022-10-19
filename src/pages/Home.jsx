@@ -1,13 +1,19 @@
-
-import React from 'react';
-import { View, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
-import { useState, useEffect } from 'react';
-import { getUsers, getUser } from '../../queryutils';
-import UserCard from '../components/UserCard';
-import Search from '../components/Search';
-import Navbar from '../components/Navbar';
+import React from "react";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  ActivityIndicator, TouchableOpacity, Text,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useEffect } from "react";
+import { getUsers, getUser } from "../../queryutils";
+import UserCard from "../components/UserCard";
+import Search from "../components/Search";
+import Navbar from "../components/Navbar";
 import Slider from '@react-native-community/slider';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { nanoid } from "nanoid";
 import { auth } from '../../firebase';
 import { getDistance } from 'geolib';
 
@@ -48,7 +54,7 @@ const SearchPage = () => {
     return (
       <View>
         <Navbar />
-        
+
         <ScrollView horizontal={true}>
           {/* {users?.map((user, index) => {
             return <UserCard key={index} user={user} />;
