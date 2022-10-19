@@ -38,29 +38,31 @@ export default function MyLocation() {
   const[dancers, setDancers] = useState([])
   const[liveLoading, setLiveLoading] = useState(false)
   const[range, setRange] = useState(40)
-  const[selectedDance, setSelectedDance] = useState(null)
+  const[selectedDance, setSelectedDance] = useState('tango')
   const[selectedRole, setSelectedRole] = useState(null)
   const [query, setQuery] = useState(initialQuery)
 
-  const params = navigation.getState().routes[0].params;
+  //const params = navigation.getState().routes[0].params;
 
 
   const handleInputChange = (val, val2) => {
       
     setQuery({...query,
       [val]: val2})
+      return
 }
 
   
 
   useEffect(() => {
-    setIsLoading(true)
-    getUsers(params)
+    //setIsLoading(true)
+    userLocation()
+    getUsers()
     .then((response) => {
         setDancers(response)
-        setIsLoading(false)
+        //setIsLoading(false)
     })  
-  }, [params])
+  }, [])
   
    
   const userLocation = async () => {
@@ -68,53 +70,62 @@ export default function MyLocation() {
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
       }
-      let location = await Location.getCurrentPositionAsync({
-        enableHighAccuracy: true,
-      });
-      setMapRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-      setMyLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      })
+      else {
+        let location = await Location.getCurrentPositionAsync({
+          enableHighAccuracy: true,
+        });
+        
+        setMapRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+        setMyLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        })
+      }
+      
       
     };
-    useEffect(() => {
-      setLiveLoading(true)
-      userLocation();
-      setLiveLoading(false)
-    },[]);
+    // useEffect(() => {
+    //   setIsLoading(true)
+    //   userLocation().then(()=> {
+    //     setIsLoading(false)
+    //   })
+      
+    // },[]);
    
     
 
 
-    const onDanceSelect = (item) => {
+    const  onDanceSelect = async (item) => {
       setSelectedDance(item.name)
       handleInputChange("dancestyles", item.name)
       setIsLoading(true)
-      getUsersByQuery({...query, dancestyles:item.name})
-      .then((response) => {
-            setDancers(response)
-            setIsLoading(false)
-          })
+       const response = await getUsersByQuery({...query, dancestyles:item.name})
+      
+      setDancers(response)
+      setIsLoading(false)
+         
+         
     }
-    const onRoleSelect = (item) => {
+    const onRoleSelect = async (item) => {
+
       setSelectedRole(item.name)
-      handleInputChange("role", item.name)
+      handleInputChange(() => "role", item.name)
       setIsLoading(true)
-      getUsersByQuery({...query, role:item.name})
+      const response = await getUsersByQuery({...query, role:item.name})
         
-      .then((response) => {
-             setDancers(response)
-            setIsLoading(false)
-           })
+      
+      setDancers(response)
+      setIsLoading(false)
+           
+         
     }
 
-
+     console.log(selectedDance)
   
   if (liveLoading) {
     return (
@@ -141,9 +152,10 @@ export default function MyLocation() {
           })} */}
 
 
-    {dancers.filter((dancer) => (Math.round((getDistance(dancer.location, myLocation)/1000)*0.62137)) <= range )
+    {dancers.filter((dancer) => {
+     return Math.round((getDistance(dancer.location, myLocation) /1000)*0.62137)
+         <= range })
     .map((filteredDancer, index,) => {
-      
       return <Marker key={index} coordinate={filteredDancer.location} title={filteredDancer.firstname}/>
     })}
             
@@ -159,12 +171,7 @@ export default function MyLocation() {
 
           step={0.5}
           value={range}
-          onSlidingComplete={(value) => { 
-            setRange(value)
-            
-            
-          }
-          }
+          onSlidingComplete={(value) => setRange(value)}
           style={{width: 320, height: 40}}
           minimumValue={0}
           maximumValue={40}

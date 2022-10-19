@@ -17,11 +17,11 @@ const Navbar = () => {
   const navigation = useNavigation();
   return (
     <View className="flex-row justify-between pt-12 px-6 pb-4 bg-red-500">
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <MaterialCommunityIcons name="dance-ballroom" size={28} color="white" />
       </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}> */}
-      <Image source={require('/Users/connorquinn/Desktop/Northcoders/Final-Project/dancify/Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
+      <Image source={require('../../Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
       {/* </TouchableOpacity> */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
@@ -31,7 +31,7 @@ const Navbar = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -39,36 +39,35 @@ const Navbar = () => {
           <View style={styles.modalView}>
             <TouchableOpacity
               className=" mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('CreateProfile')}
+              onPress={() => navigation.navigate("CreateProfile")}
             >
               <Text className="text-xl text-white">Create profile</Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('SignUp')}
+              onPress={() => navigation.navigate("SignUp")}
             >
               <Text className="text-xl text-white">SignUp</Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => navigation.navigate("Home")}
             >
               <Text className="text-xl text-white">Home</Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('MyLocation')}
+              onPress={() => navigation.navigate("MyLocation")}
             >
               <Text className="text-xl text-white">Location</Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('Chats')}
+              onPress={() => navigation.navigate("Chats")}
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
-            
-      
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
@@ -85,17 +84,17 @@ const Navbar = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -110,19 +109,19 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
