@@ -1,7 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import placeholderImage from '../../assets/adaptive-icon.png';
 import AddMessage from './AddMessage';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const UserCard = ({ user }) => {
@@ -27,16 +26,7 @@ const UserCard = ({ user }) => {
             </Text>
             <Text className="text-white text-xl">{user.role}</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
-            <View className="ml-10">
-              <MaterialCommunityIcons
-                user={user}
-                name="message"
-                size={30}
-                color="white"
-              />
-            </View>
-          </TouchableOpacity>
+          <AddMessage user={user} />
         </View>
       </View>
     </TouchableOpacity>
