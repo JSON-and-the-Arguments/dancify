@@ -5,16 +5,17 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import { useNavigation } from "@react-navigation/native";
-import { getUser } from "../../queryutils";
-import AddMessage from "../components/AddMessage";
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import { useNavigation } from '@react-navigation/native';
+import { getUser } from '../../queryutils';
+import AddMessage from '../components/AddMessage';
 
-const SingleProfile = ({ route, navigation }) => {
-  const { user } = route.params;
+const SingleProfile = ({ route: { params } }) => {
+  const navigation = useNavigation();
   const [profile, setProfile] = useState({});
+  const user = params.user;
 
   useEffect(() => {
     getUser(user).then((res) => {
@@ -30,7 +31,7 @@ const SingleProfile = ({ route, navigation }) => {
           <Image
             className=" w-60 h-60 items- border-solid border-4 border-red-500/10 rounded-lg "
             source={{
-              uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${profile.uid}/profilePicture.jpeg`,
+              uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user}/profilePicture.jpeg`,
             }}
           />
         </View>
