@@ -4,16 +4,13 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
-  Alert,
   StyleSheet,
-  Image
+  Image,
 } from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons'; 
-
-
+import { AntDesign } from '@expo/vector-icons';
 
 const Navbar = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,25 +18,21 @@ const Navbar = () => {
 
   return (
     <View className="flex-row justify-between pt-12 px-6 pb-4 bg-red-500">
-
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <MaterialCommunityIcons name="dance-ballroom" size={40} color="white" />
       </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}> */}
-      <Image source={require('../../Photo/Dancify.png')} style={{flex: 1, resizeMode: 'contain', height: 30}}/>
-      {/* </TouchableOpacity> */}
+      <Image
+        source={require('../../Photo/Dancify.png')}
+        style={{ flex: 1, resizeMode: 'contain', height: 30 }}
+      />
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Feather name="menu" size={28} color="white" />
       </TouchableOpacity>
-
-      
-
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -75,17 +68,20 @@ const Navbar = () => {
             >
               <Text className="text-xl text-white">Chats</Text>
             </TouchableOpacity>
-
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <AntDesign className="bg-white rounded-none" name="closecircleo" size={24} color="black" />
+              <AntDesign
+                className="bg-white rounded-none"
+                name="closecircleo"
+                size={24}
+                color="black"
+              />
             </Pressable>
           </View>
         </View>
       </Modal>
-
     </View>
   );
 };
@@ -93,17 +89,16 @@ const Navbar = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -112,22 +107,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  
+
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
   },
   buttonClose: {
     backgroundColor: '#ffffff',
     marginTop: 30,
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

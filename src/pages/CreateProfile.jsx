@@ -7,9 +7,9 @@ import {
   Button,
   Switch,
   TouchableOpacity,
-  SafeAreaView,
+  Alert,
 } from 'react-native';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from '../components/Dropdown';
 import Slider from '@react-native-community/slider';
 import { setDoc, doc } from 'firebase/firestore';
@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import { updateProfile } from 'firebase/auth';
 import axios from 'axios';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const initialValues = {
   firstname: '',
@@ -31,6 +32,7 @@ const initialValues = {
   range: 0,
   available: false,
   about: '',
+  location: '',
 };
 
 const dance = [
@@ -54,7 +56,8 @@ const CreateProfile = () => {
   const [values, setValues] = useState(initialValues);
   const [selectedImage, setSelectedImage] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
-  const [isVerified, setIsVerified] = useState(false)
+  const [postcodeVerified, SetPostcodeVerified] = useState(false);
+  const [postcodeNotValid, SetPostcodeNotValid] = useState(false);
 
   const navigation = useNavigation();
   const { currentUser } = auth;
@@ -66,19 +69,21 @@ const CreateProfile = () => {
     })();
   }, []);
 
-  async function handleProfilePicture() {
+  const handleProfilePicture = async () => {
     const result = await pickImage();
     if (!result.cancelled) {
       setSelectedImage(result.uri);
       handleInputChange('image', result.uri);
+    } else {
+      Alert.alert('Image selection failed, try again');
     }
-  }
+  };
 
   if (!permissionStatus) {
     return <Text>Loading</Text>;
   }
   if (permissionStatus !== 'granted') {
-    return <Text>You need to allow this permission</Text>;
+    return <Text>You need to allow this permission to access Dancify</Text>;
   }
 
   async function handleUploadPicture() {
@@ -100,26 +105,12 @@ const CreateProfile = () => {
     setValues({ ...values, [val]: val2 });
   };
 
-  function  getCoords(postcode) {
-    axios.get(`https://api.postcodes.io/postcodes/${postcode}`)
-   .then((res) => {
-     
-     handleInputChange('location', {
-         latitude: res.data.result.latitude,
-         longitude: res.data.result.longitude,
-     })
-     setIsVerified(true)
-     alert('Postcode is valid, press create button')
-   })
-  }
-
   const patchUser = async () => {
     const user = auth.currentUser;
     const updateProf = doc(db, 'users', user.uid);
-    if (!isVerified) {
-      alert('You forgot to enter or validate your postcode')
-    }
-    else {
+    if (!postcodeVerified) {
+      alert('Postcode invalid, make sure there are no spaces');
+    } else {
       await Promise.all([
         handleUploadPicture(),
         updateProfile(user, values),
@@ -128,7 +119,6 @@ const CreateProfile = () => {
         navigation.navigate('Home');
       });
     }
-    
   };
 
   const toggleSwitch = () => setIsAvailable((previousState) => !previousState);
@@ -140,6 +130,29 @@ const CreateProfile = () => {
   const onRoleSelect = (item) => {
     setSelectedRole(item);
     handleInputChange('role', item.name);
+  };
+
+  const getCoords = async (postcode) => {
+    const pcRegex = /^([A-Z]{1,2}\d[A-Z\d]?) ?\d[A-Z]{2}|GIR ?0A{2}$/i;
+    const matchedRegex = postcode.match(pcRegex);
+    if (!pcRegex.test) {
+      Alert.alert('Postcode Invalid, please check it has a space');
+    } else {
+      try {
+        const res = await axios.get(
+          `https://api.postcodes.io/outcodes/${matchedRegex[1]}`
+        );
+        handleInputChange('location', {
+          latitude: res.data.result.latitude,
+          longitude: res.data.result.longitude,
+        });
+        SetPostcodeVerified(true);
+      } catch (err) {
+        SetPostcodeVerified(false);
+        SetPostcodeNotValid(true);
+        Alert.alert('Postcode Invalid, check it has no spaces');
+      }
+    }
   };
 
   return (
@@ -164,7 +177,6 @@ const CreateProfile = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          className=""
         >
           {!selectedImage ? (
             <MaterialCommunityIcons
@@ -203,16 +215,25 @@ const CreateProfile = () => {
         <TextInput
           value={values.postcode}
           onChangeText={(value) => handleInputChange('postcode', value)}
+          onEndEditing={() => getCoords(values.postcode)}
           className="mt-2 mb-3 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
           placeholder="M1 7ED"
           required
           keyboardType="default"
         />
-        <Button
-        title='Verify Postcode'
-        onPress={()=> getCoords(values.postcode)}
-        />
-      
+        {postcodeVerified ? (
+          <Text>
+            <Ionicons name="md-checkmark-circle" size={14} color="green" />
+            Postcode Valid
+          </Text>
+        ) : postcodeNotValid ? (
+          <Text>
+            <Ionicons name="md-close-circle" size={14} color="red" />
+            Postcode Not Valid
+          </Text>
+        ) : (
+          <Text></Text>
+        )}
 
         <Text className="mt-5 mb-2 text-base">Dance Styles</Text>
         <Dropdown value={selectedItem} data={dance} onSelect={onSelect} />
@@ -234,7 +255,9 @@ const CreateProfile = () => {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
         />
-        <Text className="mt-5 mb-2 text-base">{isAvailable ? 'Available' : 'Not Available'}</Text>
+        <Text className="mt-5 mb-2 text-base">
+          {isAvailable ? 'Available' : 'Not Available'}
+        </Text>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
           thumbColor={isAvailable ? '#f5dd4b' : '#f4f3f4'}
@@ -248,7 +271,9 @@ const CreateProfile = () => {
         <Text className="mt-5 mb-2 text-base">Tell us about Yourself</Text>
         <TextInput
           value={values.about}
-          onChangeText={(value) => handleInputChange('about', value)}
+          onChangeText={(value) => {
+            handleInputChange('about', value);
+          }}
           className="mt-1  block w-80 px-3 py-2 h-20 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 text-clip overflow-hidden"
           placeholder="about"
           keyboardType="default"
@@ -258,6 +283,12 @@ const CreateProfile = () => {
             title="Create"
             onPress={patchUser}
             className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
+            disabled={
+              values.firstname.length < 1 ||
+              values.lastname.length < 1 ||
+              values.postcode.length < 1 ||
+              values.role.length < 1
+            }
           />
         </View>
       </ScrollView>

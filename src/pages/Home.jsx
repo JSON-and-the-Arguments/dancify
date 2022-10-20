@@ -15,32 +15,32 @@ import Search from '../components/Search';
 import Navbar from '../components/Navbar';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
-import { nanoid } from 'nanoid';
 import { auth } from '../../firebase';
 import { getDistance } from 'geolib';
 
-const Home = () => {
+const Home = ({ route: { params } }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [range, setRange] = useState(30);
+  const [range, setRange] = useState(40);
   const [myLocation, setMyLocation] = useState({});
   const navigation = useNavigation();
-  const params = navigation.getState().routes[0].params;
   const { currentUser } = auth;
+
   useEffect(() => {
     setLoading(true);
-    getUsers(params).then((response) => {
-      setUsers(response);
-      setLoading(false);
-    });
+    getUser(currentUser.uid)
+      .then((me) => {
+        setRange(me.range);
+        setMyLocation(me.location);
+      })
+      .then(() => {
+        getUsers(params).then((response) => {
+          setUsers(response);
+          setLoading(false);
+        });
+      });
   }, [params]);
 
-  const filterUsers = (value) => {
-    setRange(value);
-    getUser(currentUser.uid).then((me) => {
-      setMyLocation(me.location);
-    });
-  };
   if (loading) {
     return (
       <View style={[styles.loadingContainer, styles.horizontal]}>
@@ -52,11 +52,7 @@ const Home = () => {
       <View>
         <KeyboardAvoidingView behavior="position">
           <Navbar />
-
           <ScrollView horizontal={true}>
-            {/* {users?.map((user, index) => {
-            return <UserCard key={index} user={user} />;
-          })} */}
             {users
               .filter((user) => {
                 return (
@@ -79,11 +75,10 @@ const Home = () => {
           <Text className="mx-8 text-center mt-3 mb-3 text-base">
             {range} miles
           </Text>
-
           <Slider
             step={5}
             value={range}
-            onSlidingComplete={(value) => filterUsers(value)}
+            onSlidingComplete={(value) => setRange(value)}
             style={{ width: 320, height: 40 }}
             minimumValue={0}
             maximumValue={40}

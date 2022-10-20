@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
@@ -55,8 +48,7 @@ const SignUp = () => {
         await signUp(email, password);
         navigation.navigate('CreateProfile');
       } catch (err) {
-        console.error(err);
-        Alert.alert('Error occured');
+        Alert.alert('User Already Exists', 'Try logging in instead');
       }
     }
     if (mode === 'logIn') {
@@ -64,8 +56,10 @@ const SignUp = () => {
         await signIn(email, password);
         navigation.navigate('Home');
       } catch (err) {
-        console.error(err);
-        Alert.alert('Error occured');
+        Alert.alert(
+          'Incorrect User / Password',
+          'Have you created an account yet?'
+        );
       }
     }
   };
@@ -122,12 +116,12 @@ const SignUp = () => {
         <View>
           <Button
             title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
-            disabled={!email || !password}
+            disabled={!checkValidEmail || !checkValidPassword}
             onPress={addUser}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
           />
         </View>
-        <TouchableOpacity
+        <Pressable
           onPress={() =>
             mode === 'signUp' ? setMode('logIn') : setMode('signUp')
           }
@@ -137,7 +131,7 @@ const SignUp = () => {
               ? 'Already have an account? Log in'
               : "Don't have an account? Sign Up"}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
