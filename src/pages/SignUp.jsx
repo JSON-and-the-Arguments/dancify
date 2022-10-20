@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import { signIn, signUp } from '../../firebase';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import ScreenTemplate from '../components/ScreenTemplate';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -65,75 +67,88 @@ const SignUp = () => {
   };
 
   return (
-    <View>
-      <Navbar />
-      <View className="  justify-center items-center mt-5  space-y-5">
-        <Text>Email</Text>
-        <TextInput
-          value={email}
-          onChangeText={handleEmail}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="Email"
-          required
-          keyboardType="default"
-        />
-        {checkBadEmail ? (
-          <Text>
-            <Ionicons name="md-close-circle" size={14} color="red" />
-            Email Not Valid
-          </Text>
-        ) : checkValidEmail ? (
-          <Text>
-            <Ionicons name="md-checkmark-circle" size={14} color="green" />
-            Email Valid
-          </Text>
-        ) : (
-          <Text></Text>
-        )}
-        <Text>Password</Text>
-        <TextInput
-          value={password}
-          onChangeText={handlePassword}
-          className="mt-1 block w-80 px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400"
-          placeholder="Password"
-          required
-          keyboardType="default"
-          secureTextEntry={true}
-        />
-        {checkBadPassword ? (
-          <Text>
-            <Ionicons name="md-close-circle" size={14} color="red" />
-            Password Not Valid
-          </Text>
-        ) : checkValidPassword ? (
-          <Text>
-            <Ionicons name="md-checkmark-circle" size={14} color="green" />
-            Password Valid
-          </Text>
-        ) : (
-          <Text></Text>
-        )}
-        <View>
-          <Button
-            title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
-            disabled={!checkValidEmail || !checkValidPassword}
-            onPress={addUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
+    <ScreenTemplate>
+      <View>
+        <Navbar />
+        <View className="  justify-center items-center mt-5  space-y-5">
+          <Text>Email</Text>
+          <TextInput
+            value={email}
+            onChangeText={handleEmail}
+            className="mt-1 block w-80 px-3 py-2 bg-white border border-purple-600 rounded-md text-sm shadow-sm placeholder-slate-400"
+            placeholder="Email"
+            required
+            keyboardType="default"
           />
+          {checkBadEmail ? (
+            <Text>
+              <Ionicons name="md-close-circle" size={14} color="red" />
+              Email Not Valid
+            </Text>
+          ) : checkValidEmail ? (
+            <Text>
+              <Ionicons name="md-checkmark-circle" size={14} color="green" />
+              Email Valid
+            </Text>
+          ) : (
+            <Text></Text>
+          )}
+          <Text className="text-white text-xl">Password</Text>
+          <TextInput
+            value={password}
+            onChangeText={handlePassword}
+            className="mt-1 block w-80 px-3 py-2 bg-white border border-purple-600 rounded-md text-sm shadow-sm placeholder-slate-400"
+            placeholder="Password"
+            required
+            keyboardType="default"
+            secureTextEntry={true}
+          />
+          {checkBadPassword ? (
+            <Text>
+              <Ionicons name="md-close-circle" size={14} color="red" />
+              Password Not Valid
+            </Text>
+          ) : checkValidPassword ? (
+            <Text>
+              <Ionicons name="md-checkmark-circle" size={14} color="green" />
+              Password Valid
+            </Text>
+          ) : (
+            <Text></Text>
+          )}
+          <View>
+            <Button
+              title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
+              disabled={!checkValidEmail || !checkValidPassword}
+              onPress={addUser}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
+            />
+            <LinearGradient
+              colors={['#A4508B', '#5F0A87']}
+              className="mt-10 px-10 py-5 rounded-md border-none"
+              // style={styles.button}
+            >
+              <TouchableOpacity onPress={() => addUser}>
+                <Text className="text-white text-3xl">
+                  {mode === 'signUp' ? 'Sign Up' : 'Log in'}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          <Pressable
+            onPress={() =>
+              mode === 'signUp' ? setMode('logIn') : setMode('signUp')
+            }
+          >
+            <Text className="text-white text-xl">
+              {mode === 'signUp'
+                ? 'Already have an account? Log in'
+                : "Don't have an account? Sign Up"}
+            </Text>
+          </Pressable>
         </View>
-        <Pressable
-          onPress={() =>
-            mode === 'signUp' ? setMode('logIn') : setMode('signUp')
-          }
-        >
-          <Text>
-            {mode === 'signUp'
-              ? 'Already have an account? Log in'
-              : "Don't have an account? Sign Up"}
-          </Text>
-        </Pressable>
       </View>
-    </View>
+    </ScreenTemplate>
   );
 };
 
