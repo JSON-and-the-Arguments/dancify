@@ -9,9 +9,9 @@ const UserCard = ({ user }) => {
     <TouchableOpacity
       onPress={() => navigation.navigate('SingleProfile', { user: user.uid })}
     >
-      <View className="w-60 h-80 pt-50  border-red-500/10 m-5 items-center">
+      <View className="w-48 h-60 pt-50  border-red-500/10 m-5 items-center">
         <Image
-          className="w-full h-1/2 rounded"
+          className="w-full h-4/6 rounded"
           source={{
             uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user.uid}/profilePicture.jpeg`,
           }}
@@ -26,7 +26,7 @@ const UserCard = ({ user }) => {
             </Text>
             <Text className="text-white text-xl">{user.role}</Text>
           </View>
-          <AddMessage user={user} />
+          <AddMessage user={user.uid} text={''} />
         </View>
       </View>
     </TouchableOpacity>

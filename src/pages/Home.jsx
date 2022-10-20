@@ -53,7 +53,7 @@ const Home = ({ route: { params } }) => {
       <ScreenTemplate>
         <View>
           <Navbar />
-          <ScrollView>
+          <View>
             <ScrollView horizontal={true}>
               {users
                 .filter((user) => {
@@ -67,7 +67,7 @@ const Home = ({ route: { params } }) => {
                   return <UserCard key={index} user={filteredUser} />;
                 })}
             </ScrollView>
-            <View className="flex-row w-full items-center justify-center mt-0">
+            {/* <View className="flex-row w-full items-center justify-center mt-0">
               <View className="flex-row p-0 space-x-2 items-center mb-5">
                 <LinearGradient
                   start={{ x: 0.2, y: 0.1 }}
@@ -104,7 +104,8 @@ const Home = ({ route: { params } }) => {
             </Text>
             <Text className="mx-8 text-white text-center mt-3 mb-3 text-base">
               {range} miles
-            </Text>
+            </Text> */}
+            <Search range={range} />
             <Slider
               step={5}
               value={range}
@@ -115,7 +116,7 @@ const Home = ({ route: { params } }) => {
               minimumTrackTintColor="#FFFFFF"
               maximumTrackTintColor="#000000"
             />
-          </ScrollView>
+          </View>
         </View>
       </ScreenTemplate>
     );

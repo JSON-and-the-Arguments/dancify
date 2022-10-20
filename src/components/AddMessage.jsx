@@ -5,16 +5,16 @@ import GlobalContext from '../../context/Context';
 import { auth } from '../../firebase';
 import { addContact } from '../../queryutils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-const AddMessage = ({ user }) => {
+const AddMessage = ({ user, text }) => {
   const { currentUser } = auth;
   const navigation = useNavigation();
   const { rooms, unfilteredRooms } = useContext(GlobalContext);
 
   const handlePress = async () => {
-    await addContact(currentUser.uid, user.uid);
-    await addContact(user.uid, currentUser.uid);
+    await addContact(currentUser.uid, user);
+    await addContact(user, currentUser.uid);
     // await getRoom(rooms, unfilteredRooms);
-    navigation.navigate('Chat', { userB: user.uid });
+    navigation.navigate('Chat', { userB: user });
   };
 
   return (
@@ -23,8 +23,11 @@ const AddMessage = ({ user }) => {
       onPress={handlePress}
       title="Message"
     >
-      <View className="ml-10">
-        <MaterialCommunityIcons name="message" size={30} color="white" />
+      <View className="mt-10">
+        <Text className="font-semibold text-white text-xl">
+          <MaterialCommunityIcons name="message" size={30} color="white" />{' '}
+          {text}
+        </Text>
       </View>
     </TouchableOpacity>
   );

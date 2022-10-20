@@ -3,13 +3,15 @@ import React from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
 
-const Dropdown = ({ data, value, onSelect = () => {} }) => {
+const Dropdown = ({ data, value, onSelect }) => {
   const [showOption, setShowOption] = useState(false);
+  const [label, setLabel] = useState('');
   const onSelectedItem = (val) => {
     setShowOption(false);
     onSelect(val);
+    setLabel(val);
   };
-  
+
   return (
     <View className=" w-80 min-h-42  ">
       <TouchableOpacity
@@ -18,8 +20,8 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
         onPress={() => setShowOption(!showOption)}
       >
         <Text className="ml-3">
-          
-          {!!value ? value?.name : 'Choose an option'}
+          {console.log(value)}
+          {!!value ? label.name : 'Choose an option'}
         </Text>
         <AntDesign
           name="caretdown"
