@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Text } from 'react-native';
-import { auth } from '../../firebase';
-import { addContact, getRoom } from '../../queryutils';
-import {useContext} from 'react'
+import { useContext } from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
 import GlobalContext from '../../context/Context';
+import { auth } from '../../firebase';
+import { addContact } from '../../queryutils';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 const AddMessage = ({ user }) => {
   const { currentUser } = auth;
   const navigation = useNavigation();
@@ -12,7 +13,7 @@ const AddMessage = ({ user }) => {
   const handlePress = async () => {
     await addContact(currentUser.uid, user.uid);
     await addContact(user.uid, currentUser.uid);
-    await getRoom(rooms, unfilteredRooms);
+    // await getRoom(rooms, unfilteredRooms);
     navigation.navigate('Chat', { userB: user.uid });
   };
 
@@ -22,7 +23,9 @@ const AddMessage = ({ user }) => {
       onPress={handlePress}
       title="Message"
     >
-      <Text className="text-xl font-bold "> Message me </Text>
+      <View className="ml-10">
+        <MaterialCommunityIcons name="message" size={30} color="white" />
+      </View>
     </TouchableOpacity>
   );
 };

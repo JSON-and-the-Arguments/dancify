@@ -13,9 +13,10 @@ import { getUser } from "../../queryutils";
 import AddMessage from "../components/AddMessage";
 import ScreenTemplate from "../components/ScreenTemplate";
 
-const SingleProfile = ({ route, navigation }) => {
-  const { user } = route.params;
+const SingleProfile = ({ route: { params } }) => {
+  const navigation = useNavigation();
   const [profile, setProfile] = useState({});
+  const user = params.user;
 
   useEffect(() => {
     getUser(user).then((res) => {
@@ -32,7 +33,7 @@ const SingleProfile = ({ route, navigation }) => {
           <Image
             className=" w-full h-60  border-solid border-4  rounded-lg "
             source={{
-              uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${profile.uid}/profilePicture.jpeg`,
+              uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user}/profilePicture.jpeg`,
             }}
           />
         </View>
