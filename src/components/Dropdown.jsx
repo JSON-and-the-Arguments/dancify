@@ -9,6 +9,7 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
     setShowOption(false);
     onSelect(val);
   };
+  
   return (
     <View className=" w-80 min-h-42  ">
       <TouchableOpacity
@@ -17,6 +18,7 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
         onPress={() => setShowOption(!showOption)}
       >
         <Text className="ml-3">
+          
           {!!value ? value?.name : 'Choose an option'}
         </Text>
         <AntDesign
@@ -32,9 +34,10 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
             return (
               <TouchableOpacity
                 key={index}
+                className="align-middle"
                 onPress={() => onSelectedItem(item)}
               >
-                <Text> {item.name}</Text>
+                <Text className="text-base text-white  h-10"> {item.name}</Text>
               </TouchableOpacity>
             );
           })}

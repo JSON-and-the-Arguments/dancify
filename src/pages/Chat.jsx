@@ -17,8 +17,7 @@ import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { Actions, GiftedChat } from 'react-native-gifted-chat';
 import { useState } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+import { getUser } from '../../queryutils';
 const randomId = nanoid();
 
 const Chat = () => {
@@ -34,25 +33,28 @@ const Chat = () => {
   const roomMessagesRef = collection(db, 'rooms', roomId, 'messages');
 
   useEffect(() => {
-    (async () => {
-      if (!room) {
-        const currentUserData = {
-          id: currentUser.uid,
-        };
-        const userBData = {
-          id: userB,
-        };
-        const roomData = {
-          users: [currentUserData, userBData],
-          usersArray: [currentUser.uid, userB],
-        };
-        try {
-          await setDoc(roomRef, roomData);
-        } catch (error) {
-          console.log(error);
+    getUser(userB).then((userBinfo) => {
+      (async () => {
+        if (!room) {
+          const currentUserData = {
+            id: currentUser.uid,
+          };
+          const userBData = {
+            id: userB,
+            firstname: userBinfo.firstname,
+          };
+          const roomData = {
+            users: [currentUserData, userBData],
+            usersArray: [currentUser.uid, userB],
+          };
+          try {
+            await setDoc(roomRef, roomData);
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
-    })();
+      })();
+    });
   }, []);
 
   useEffect(() => {

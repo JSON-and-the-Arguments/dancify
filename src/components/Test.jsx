@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TextInput, Button, SafeAreaView, Switch, TouchableOpacity} from 'react-native'
+import { View, Text, ScrollView, Image, TextInput, Button, SafeAreaView, Switch, TouchableOpacity, KeyboardAvoidingView} from 'react-native'
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Navbar from './Navbar'
 import Dropdown from './Dropdown'
@@ -93,8 +93,7 @@ const CreateProfile = () => {
       alert('Postcode is valid, press create button')
     })
   }
-  //console.log(values)
-  
+    
 
   if (!permissionStatus) {
     return <Text>Loading</Text>;

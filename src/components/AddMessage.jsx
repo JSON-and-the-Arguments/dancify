@@ -1,7 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useContext } from 'react';
-import { Button } from 'react-native';
-import GlobalContext from '../../context/Context';
+import { TouchableOpacity, Text } from 'react-native';
 import { auth } from '../../firebase';
 import { addContact, getRoom } from '../../queryutils';
 const AddMessage = ({ user }) => {
@@ -16,7 +14,15 @@ const AddMessage = ({ user }) => {
     navigation.navigate('Chat', { userB: user.uid });
   };
 
-  return <Button onPress={handlePress} title="Message" />;
+  return (
+    <TouchableOpacity
+      classname="bg-rose-300 rounded-full py-2 "
+      onPress={handlePress}
+      title="Message"
+    >
+      <Text className="text-xl font-bold "> Message me </Text>
+    </TouchableOpacity>
+  );
 };
 
 export default AddMessage;

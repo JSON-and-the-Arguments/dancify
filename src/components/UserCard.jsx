@@ -1,25 +1,46 @@
-
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import placeholderImage from '../../assets/adaptive-icon.png';
 import AddMessage from './AddMessage';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const UserCard = ({ user }) => {
+  const navigation = useNavigation();
   return (
-    <View className="w-40 h-60 pt-50 bg-red-100 border-2 m-5 items-center">
-      <Image
-        className="w-full h-1/2"
-        source={{
-          uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user.uid}/profilePicture.jpeg`,
-        }}
-      />
-      <View className="border-2 w-1/2 items-center">
-        <Text>Name {user.firstname}</Text>
-        <Text>Dance style: {user.dancestyles}</Text>
-        <AddMessage user={user} />
+    <TouchableOpacity
+      onPress={() => navigation.navigate('SingleProfile', { user: user.uid })}
+    >
+      <View className="w-60 h-80 pt-50  border-red-500/10 m-5 items-center">
+        <Image
+          className="w-full h-1/2 rounded"
+          source={{
+            uri: `https://storage.googleapis.com/dancify-728c9.appspot.com/userPictures/${user.uid}/profilePicture.jpeg`,
+          }}
+        />
+        <View className=" flex-row mx-10 justify-between w-full h-30 items-center">
+          <View>
+            <Text className="text-white text-3xl mb-2  decoration-2">
+              {user.firstname}
+            </Text>
+            <Text className="text-white text-xl capitalize">
+              {user.dancestyles}
+            </Text>
+            <Text className="text-white text-xl">{user.role}</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+            <View className="ml-10">
+              <MaterialCommunityIcons
+                user={user}
+                name="message"
+                size={30}
+                color="white"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 export default UserCard;
-

@@ -18,24 +18,21 @@ export async function askForPermission() {
 }
 
 export async function uploadImage(uri, path, fName) {
-  // console.log(path)
-  // console.log(fName)
-  // Why are we using XMLHttpRequest? See:
-  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
       resolve(xhr.response);
     };
     xhr.onerror = function (e) {
-      console.log(e);
+      
       reject(new TypeError('Network request failed'));
     };
     xhr.responseType = 'blob';
     xhr.open('GET', uri, true);
     xhr.send(null);
   });
-  //console.log(uri)
+  
   const fileName = fName || nanoid();
   const imageRef = ref(getStorage(app), `${path}/${fileName}.jpeg`);
 
