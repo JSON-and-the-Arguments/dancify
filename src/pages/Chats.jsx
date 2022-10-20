@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {getUser} from '../../queryutils'
+import ScreenTemplate from '../components/ScreenTemplate';
 
 const Chats = () => {
   const { currentUser } = auth;
@@ -36,20 +37,18 @@ const Chats = () => {
           return user.id !== currentUser.uid;
         }),
         userBfirstname: doc.data().users.find((user) => {
-          console.log(user)
           return user.firstname !== undefined
         }),
       }));
-      //console.log(userB)
       setUnfilteredRooms(parsedChats);
       setRooms(parsedChats);
     });
     return () => logout();
   }, []);
 
-  //console.log(rooms)
-
+  
   return (
+    <ScreenTemplate>
     <View>
       <Navbar />
       {rooms.map((room) => {
@@ -67,7 +66,7 @@ const Chats = () => {
                 })
               }
             >
-              <Text key={room.id} room={room}>
+              <Text className='text-white text-2xl' key={room.id} room={room}>
                 {room.users[0].id === currentUser.uid
                       ? room.users[1].firstname
                       : room.users[0].firstname}
@@ -78,6 +77,7 @@ const Chats = () => {
       })}
    
     </View>
+    </ScreenTemplate>
   );
 };
 
