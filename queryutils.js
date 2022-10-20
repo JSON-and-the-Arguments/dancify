@@ -14,8 +14,6 @@ import { decode, encode } from 'base-64';
 import { auth } from './firebase';
 import { useContext } from 'react';
 import GlobalContext from './context/Context';
-import { auth } from './firebase';
-
 if (!global.btoa) {
   global.btoa = encode;
 }

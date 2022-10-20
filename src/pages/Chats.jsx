@@ -23,17 +23,11 @@ const Chats = () => {
 
   const chatsQuery = query(
     collection(db, 'rooms'),
-    where('usersArray', 'array-contains', currentUser.uid),
-    
+    where('usersArray', 'array-contains', currentUser.uid)
   );
 
-  
-  
-
-
-  
   const navigation = useNavigation();
- 
+
   useEffect(() => {
     const logout = onSnapshot(chatsQuery, (querySnapshot) => {
       const parsedChats = querySnapshot.docs.map((doc) => ({
@@ -52,12 +46,10 @@ const Chats = () => {
     return () => logout();
   }, []);
 
-  
   return (
-    <View>
+    <ScreenTemplate>
       <Navbar />
       {rooms.map((room) => {
-       
         return (
           <View key={room.id}>
             <TouchableOpacity
@@ -71,17 +63,15 @@ const Chats = () => {
                 })
               }
             >
-              <Text className='text-white text-2xl' key={room.id} room={room}>
+              <Text className="text-white text-2xl" key={room.id} room={room}>
                 {room.users[0].id === currentUser.uid
-                      ? room.users[1].firstname
-                      : room.users[0].firstname}
+                  ? room.users[1].firstname
+                  : room.users[0].firstname}
               </Text>
             </TouchableOpacity>
           </View>
         );
       })}
-   
-    </View>
     </ScreenTemplate>
   );
 };

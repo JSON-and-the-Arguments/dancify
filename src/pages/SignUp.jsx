@@ -1,4 +1,12 @@
-import { View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
@@ -71,7 +79,7 @@ const SignUp = () => {
       <View>
         <Navbar />
         <View className="  justify-center items-center mt-5  space-y-5">
-          <Text>Email</Text>
+          <Text className="text-white">Email</Text>
           <TextInput
             value={email}
             onChangeText={handleEmail}
@@ -81,12 +89,12 @@ const SignUp = () => {
             keyboardType="default"
           />
           {checkBadEmail ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-close-circle" size={14} color="red" />
               Email Not Valid
             </Text>
           ) : checkValidEmail ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-checkmark-circle" size={14} color="green" />
               Email Valid
             </Text>
@@ -104,12 +112,12 @@ const SignUp = () => {
             secureTextEntry={true}
           />
           {checkBadPassword ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-close-circle" size={14} color="red" />
               Password Not Valid
             </Text>
           ) : checkValidPassword ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-checkmark-circle" size={14} color="green" />
               Password Valid
             </Text>
@@ -117,22 +125,19 @@ const SignUp = () => {
             <Text></Text>
           )}
           <View>
-            <Button
-              title={mode === 'signUp' ? 'Sign Up' : 'Log in'}
-              disabled={!checkValidEmail || !checkValidPassword}
-              onPress={addUser}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full-5"
-            />
             <LinearGradient
               colors={['#A4508B', '#5F0A87']}
               className="mt-10 px-10 py-5 rounded-md border-none"
               // style={styles.button}
             >
-              <TouchableOpacity onPress={() => addUser}>
+              <Pressable
+                disabled={!checkValidEmail || !checkValidPassword}
+                onPress={addUser}
+              >
                 <Text className="text-white text-3xl">
                   {mode === 'signUp' ? 'Sign Up' : 'Log in'}
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             </LinearGradient>
           </View>
           <Pressable

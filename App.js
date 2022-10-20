@@ -27,17 +27,6 @@ const MyTheme = {
   },
 };
 
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    backgroundGradient: 'vertical',
-    backgroundGradientTop: 'rgb(119, 0, 200)'[
-      ('rgb(119, 0, 200)', 'rgb(95, 0, 160)', 'rgb(60, 0, 100)')
-    ],
-  },
-};
-
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);

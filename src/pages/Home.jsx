@@ -99,8 +99,6 @@ const Home = ({ route: { params } }) => {
                 </LinearGradient>
               </View>
             </View>
-
-            <Search />
             <Text className="mt-2 text-white text-center text-sm">
               Select the desired range to find other dancers
             </Text>

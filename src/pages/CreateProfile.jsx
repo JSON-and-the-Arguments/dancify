@@ -224,12 +224,12 @@ const CreateProfile = () => {
             keyboardType="default"
           />
           {postcodeVerified ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-checkmark-circle" size={14} color="green" />
               Postcode Valid
             </Text>
           ) : postcodeNotValid ? (
-            <Text>
+            <Text className="text-white">
               <Ionicons name="md-close-circle" size={14} color="red" />
               Postcode Not Valid
             </Text>
