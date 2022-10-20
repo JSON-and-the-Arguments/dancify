@@ -3,8 +3,9 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  ActivityIndicator, TouchableOpacity, Text,
+  ActivityIndicator, Text,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { getUsers, getUser } from "../../queryutils";
@@ -16,6 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 import { nanoid } from "nanoid";
 import { auth } from '../../firebase';
 import { getDistance } from 'geolib';
+import { LinearGradient } from 'expo-linear-gradient';
+import ScreenTemplate from "../components/ScreenTemplate";
 
 const SearchPage = () => {
   const [users, setUsers] = useState([]);
@@ -32,7 +35,7 @@ const SearchPage = () => {
       setLoading(false);
     });
   }, [params]);
-
+  console.log(currentUser.uid)
   const filterUsers = (value) => {
       setRange(value)
       getUser(currentUser.uid)
@@ -42,8 +45,7 @@ const SearchPage = () => {
         
       })
   }
-  console.log(myLocation, 'Looooocccattionnn')
-  console.log(range, 'VAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLUUUUEEE')
+  
   if (loading) {
     return (
       <View style={[styles.loadingContainer, styles.horizontal]}>
@@ -52,13 +54,15 @@ const SearchPage = () => {
     );
   } else {
     return (
+      <ScreenTemplate>
       <View>
         
-        <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
     behavior='position'
-    >
+    > */}
         <Navbar />
-
+        <View>
+        <ScrollView>
         <ScrollView horizontal={true}>
           {/* {users?.map((user, index) => {
             return <UserCard key={index} user={user} />;
@@ -70,15 +74,49 @@ const SearchPage = () => {
       return <UserCard key={index} user={filteredUser} />;
     })}
         </ScrollView>
-        <Search />
-        </KeyboardAvoidingView>
-
-        <TouchableOpacity
-              className="mb-4 bg-blue-600 px-4 rounded-lg"
-              onPress={() => navigation.navigate('Chats')}
-            >
-              <Text className="text-xl text-white">Chats</Text>
+        <View className='flex-row w-full items-center justify-center mt-0'>
+          
+        <View className='flex-row p-0 space-x-2 items-center mb-5'>
+            <LinearGradient
+             start={{ x: 0.2, y: 0.1 }}
+             end={{ x: 0.9, y: 0.3 }}
+             colors={[ '#A4508B','#5F0A87']}
+             className=" mt-10  px-10 py-5 rounded-l-lg border-none">
+              <TouchableOpacity
+                
+                onPress={() => {
+                  navigation.navigate("Home", {
+                    user: searchText,
+                  });
+                }}
+              >
+              <Text className="text-white text-lg">All users</Text>
             </TouchableOpacity>
+
+            </LinearGradient>
+
+            <LinearGradient
+            start={{ x: 0.2, y: 0.1 }}
+            end={{ x: 0.9, y: 0.3 }}
+            colors={[ '#A4508B','#5F0A87']}
+            className="mt-10 px-10 py-5 rounded-r-lg border-none">
+              <TouchableOpacity
+            
+            onPress={() => navigation.navigate("MyLocation")}
+            >
+            <Text className="text-white text-lg">Location</Text>
+          </TouchableOpacity>
+            </LinearGradient>
+            
+          
+        </View>
+        </View>
+        
+        <Search />
+       
+
+        <Text className="mt-2 text-white text-center text-sm">Select the desired range to find other dancers</Text>
+            <Text className="mx-8 text-white text-center mt-3 mb-3 text-base">{range} miles</Text>
             <Slider
 
           step={5}
@@ -90,7 +128,10 @@ const SearchPage = () => {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           />
+          </ScrollView>
+          </View>
       </View>
+      </ScreenTemplate>
     );
   }
 };

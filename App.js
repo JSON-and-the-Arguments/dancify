@@ -1,5 +1,5 @@
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
 import CreateProfile from './src/pages/CreateProfile';
@@ -14,8 +14,19 @@ import Chat from './src/pages/Chat';
 import Location from './src/components/Location'
 import WelcomePage from './src/pages/WelcomePage';
 import SingleProfile from './src/pages/SingleProfile';
+import ScreenTemplate from './src/components/ScreenTemplate';
 
 const Stack = createNativeStackNavigator()
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    backgroundGradient: 'vertical', 
+    backgroundGradientTop: 'rgb(119, 0, 200)'
+    ['rgb(119, 0, 200)', 'rgb(95, 0, 160)', 'rgb(60, 0, 100)'],
+  },
+};
 
 export default function App() {
   const [currentUser, setCurrentUSer] = useState(null);
@@ -39,8 +50,8 @@ export default function App() {
 
   return (
     <ContextWrapper>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <NavigationContainer theme={MyTheme}>
+        <Stack.Navigator screenOptions={{ headerShown: false, }}>
           <Stack.Screen name="WelcomePage" component={WelcomePage} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="CreateProfile" component={CreateProfile} />

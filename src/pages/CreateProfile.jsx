@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import { updateProfile } from 'firebase/auth';
 import axios from 'axios';
+import ScreenTemplate from '../components/ScreenTemplate';
 
 const initialValues = {
   firstname: '',
@@ -143,6 +144,7 @@ const CreateProfile = () => {
   };
 
   return (
+    <ScreenTemplate>
     <>
       <Navbar />
       <ScrollView
@@ -180,7 +182,7 @@ const CreateProfile = () => {
           )}
         </TouchableOpacity>
 
-        <Text className="text-base">First Name</Text>
+        <Text className="text-base text-white">First Name</Text>
         <TextInput
           value={values.firstname}
           onChangeText={(value) => handleInputChange('firstname', value)}
@@ -189,7 +191,7 @@ const CreateProfile = () => {
           required
           keyboardType="default"
         />
-        <Text className="text-base">Last Name</Text>
+        <Text className="text-base text-white">Last Name</Text>
         <TextInput
           value={values.lastname}
           onChangeText={(value) => handleInputChange('lastname', value)}
@@ -199,7 +201,7 @@ const CreateProfile = () => {
           keyboardType="default"
         />
 
-        <Text className="text-base">Post Code</Text>
+        <Text className="text-base text-white">Post Code</Text>
         <TextInput
           value={values.postcode}
           onChangeText={(value) => handleInputChange('postcode', value)}
@@ -214,13 +216,13 @@ const CreateProfile = () => {
         />
       
 
-        <Text className="mt-5 mb-2 text-base">Dance Styles</Text>
+        <Text className="mt-5 mb-2 text-white text-base">Dance Styles</Text>
         <Dropdown value={selectedItem} data={dance} onSelect={onSelect} />
 
-        <Text className="mt-5 mb-2 text-base">Role</Text>
+        <Text className="mt-5 mb-2 text-white text-base">Role</Text>
         <Dropdown value={selectedRole} data={role} onSelect={onRoleSelect} />
 
-        <Text className="mt-5 mb-2 text-base">Range: {range} miles</Text>
+        <Text className="mt-5 mb-2  text-white text-base">Range: {range} miles</Text>
         <Slider
           step={5}
           value={range}
@@ -231,13 +233,13 @@ const CreateProfile = () => {
           style={{ width: 320, height: 40 }}
           minimumValue={0}
           maximumValue={30}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
+          minimumTrackTintColor="purple"
+          maximumTrackTintColor="white"
         />
-        <Text className="mt-5 mb-2 text-base">{isAvailable ? 'Available' : 'Not Available'}</Text>
+        <Text className="mt-5 mb-2 text-white text-base">{isAvailable ? 'Available' : 'Not Available'}</Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isAvailable ? '#f5dd4b' : '#f4f3f4'}
+          trackColor={{ false: '#767577', true: '#A4508B' }}
+          thumbColor={isAvailable ? '#5F0A87' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           value={isAvailable}
           onValueChange={(value) => {
@@ -245,7 +247,7 @@ const CreateProfile = () => {
             handleInputChange('available', value);
           }}
         />
-        <Text className="mt-5 mb-2 text-base">Tell us about Yourself</Text>
+        <Text className="mt-5 mb-2 text-base text-white">Tell us about Yourself</Text>
         <TextInput
           value={values.about}
           onChangeText={(value) => handleInputChange('about', value)}
@@ -257,11 +259,12 @@ const CreateProfile = () => {
           <Button
             title="Create"
             onPress={patchUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
+            className="bg-purple-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded-full-5"
           />
         </View>
       </ScrollView>
     </>
+    </ScreenTemplate>
   );
 };
 

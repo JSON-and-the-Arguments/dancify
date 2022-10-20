@@ -38,7 +38,7 @@ const Dropdown = ({ data, value, onSelect = () => {} }) => {
                 className="align-middle"
                 onPress={() => onSelectedItem(item)}
               >
-                <Text className="text-base h-10"> {item.name}</Text>
+                <Text className="text-base text-white  h-10"> {item.name}</Text>
               </TouchableOpacity>
             );
           })}

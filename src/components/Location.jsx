@@ -11,6 +11,8 @@ import Dropdown from './Dropdown'
 
 import * as Location from 'expo-location';
 import Navbar from './Navbar';
+import ScreenTemplate from './ScreenTemplate';
+import { LinearGradient } from 'expo-linear-gradient';
 
 //const markers = ['M43AQ', 'M27HQ', 'M11LY', 'M54TJ ']
 
@@ -138,8 +140,14 @@ export default function MyLocation() {
 
   else {
     return (
-      <ScrollView>
+      <LinearGradient
+      start={{ x: 0.3, y: 0.1 }}
+      end={{ x: 0.9, y: 0.9}}
+      colors={[ '#A4508B','#5F0A87', 'black']}>
+    <View>
       <Navbar />
+      
+      <ScrollView>
       <View style={styles}>
          <MapView style={styles.map}  initialRegion={mapRegion}>
            
@@ -169,8 +177,10 @@ export default function MyLocation() {
               pinColor='blue'
             />
         </MapView> 
-        <View className='mt-10 items-center'>
-          <Text>Select the desired range to find a dancer</Text>
+      </View>  
+      
+        <View className='mt-5 items-center'>
+          <Text className='text-white' >Select the desired range to find a dancer</Text>
         <Slider
 
           step={0.5}
@@ -182,11 +192,11 @@ export default function MyLocation() {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           />
-          <Text className="mx-8 text-center mt-2 text-base">{range} miles</Text>
+          <Text className="mx-8 text-center text-white text-base">{range} miles</Text>
         </View>
         
-        <Text className='mt-6 text-center'>Choose a dance style</Text>
-        <View className='mt-2 items-center'>
+        <Text className='text-center text-white '>Choose a dance style</Text>
+        <View className='mt-5 items-center'>
           <Dropdown
           value={selectedDance}
           data={dance}
@@ -196,15 +206,18 @@ export default function MyLocation() {
           
         </View>
         
-        <Text className='mt-10 text-center'>Choose your partner role</Text>
+        <Text className='mt-10 text-center text-white '>Choose your partner role</Text>
         <View className='mt-2 mb-20 items-center'>
           <Dropdown
           value={selectedRole}
           data={role}
           onSelect={onRoleSelect}/>
         </View>
-      </View>
+        
       </ScrollView>
+     
+    </View>
+     </LinearGradient>
     );
   }
 
@@ -215,7 +228,8 @@ export default function MyLocation() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    position: 'relative',
+    //backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
@@ -223,6 +237,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: 400,
-    height: 400,
+    height: 350,
   },
 });
