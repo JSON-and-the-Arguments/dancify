@@ -2,6 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, Text } from 'react-native';
 import { auth } from '../../firebase';
 import { addContact, getRoom } from '../../queryutils';
+import {useContext} from 'react'
+import GlobalContext from '../../context/Context';
 const AddMessage = ({ user }) => {
   const { currentUser } = auth;
   const navigation = useNavigation();

@@ -108,7 +108,7 @@ const Home = ({ route: { params } }) => {
             <Slider
               step={5}
               value={range}
-              onSlidingComplete={(value) => filterUsers(value)}
+              onSlidingComplete={(value) => setRange(value)}
               style={{ width: 320, height: 40 }}
               minimumValue={0}
               maximumValue={40}
