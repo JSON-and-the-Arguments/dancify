@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   ScrollView,
@@ -7,18 +7,18 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
-} from 'react-native';
-import { useState, useEffect } from 'react';
-import { getUsers, getUser } from '../../queryutils';
-import UserCard from '../components/UserCard';
-import Search from '../components/Search';
-import Navbar from '../components/Navbar';
-import Slider from '@react-native-community/slider';
-import { useNavigation } from '@react-navigation/native';
-import { auth } from '../../firebase';
-import { getDistance } from 'geolib';
-import { LinearGradient } from 'expo-linear-gradient';
-import ScreenTemplate from '../components/ScreenTemplate';
+} from "react-native";
+import { useState, useEffect } from "react";
+import { getUsers, getUser } from "../../queryutils";
+import UserCard from "../components/UserCard";
+import Search from "../components/Search";
+import Navbar from "../components/Navbar";
+import Slider from "@react-native-community/slider";
+import { useNavigation } from "@react-navigation/native";
+import { auth } from "../../firebase";
+import { getDistance } from "geolib";
+import { LinearGradient } from "expo-linear-gradient";
+import ScreenTemplate from "../components/ScreenTemplate";
 
 const Home = ({ route: { params } }) => {
   const [users, setUsers] = useState([]);
@@ -110,7 +110,7 @@ const Home = ({ route: { params } }) => {
               step={5}
               value={range}
               onSlidingComplete={(value) => setRange(value)}
-              style={{ width: 320, height: 40 }}
+              style={{ width: 320, height: 40, marginLeft: 40 }}
               minimumValue={0}
               maximumValue={40}
               minimumTrackTintColor="#FFFFFF"
@@ -131,11 +131,11 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 10,
   },
 });
