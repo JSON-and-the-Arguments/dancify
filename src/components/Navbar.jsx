@@ -36,7 +36,7 @@ const Navbar = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
-        onDismiss={() => setModalVisible(!modalVisible)}
+        // onDismiss={() => setModalVisible(!modalVisible)}
         presentationStyle={'overFullScreen'}
       >
         <View style={styles.centeredView}>
